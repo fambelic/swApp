@@ -21,11 +21,13 @@ public class UserDetailSerivice implements UserDetailsService{
 		  System.out.println("login - username: "+ username);
 		  
 	    user user = repository.findByUsername(username); 
-	   
-	    if(user == null) {
-	    	System.out.println("User not found");
-	      throw new UsernameNotFoundException("User not found");
-	    }    List<SimpleGrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority("user"));  
+
+	    if(user == null ) {
+			if((user = repository.findByEmail(username)) == null) {
+				System.out.println("User not found");
+				throw new UsernameNotFoundException("User not found");
+			}
+		}
 
 	    return new CustomUserDetails(user);
 	  }
