@@ -12,5 +12,9 @@ spring:
 server:
   port: 8087
 
-
+zuul:
+  routes:
+    registration:
+      path: /registration/**
+      url: http://localhost:8082/
 private.security.jwt.secret: otherpeopledontknowit

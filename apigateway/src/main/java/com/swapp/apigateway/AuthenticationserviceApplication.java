@@ -4,11 +4,12 @@ import com.swapp.apigateway.security.SecurityConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Import;
 
 @SpringBootApplication ( exclude = {SecurityAutoConfiguration.class} )
 @Import(value = {SecurityConfig.class})
-
+@EnableZuulProxy
 public class AuthenticationserviceApplication {
 
     public static void main(String[] args) {
