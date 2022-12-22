@@ -1,10 +1,10 @@
-package com.swapp.security.user;
+package com.swapp.apigateway.user;
+import javax.validation.constraints.NotNull;
 
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.validation.constraints.NotNull;
 
 @Setter
 @Document

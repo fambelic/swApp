@@ -1,13 +1,11 @@
-package com.swapp.security;
+package com.swapp.apigateway.security;
+import org.springframework.beans.factory.annotation.Value;
 
 import lombok.Getter;
 import lombok.ToString;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 @Getter
 @ToString
-
 public class JwtAuthenticationConfig {
 
     @Value("${private.security.jwt.url:/login}")
