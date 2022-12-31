@@ -10,8 +10,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class user {
 
-
-
 	@NotNull
 	@Indexed(unique=true)
 	private String email;

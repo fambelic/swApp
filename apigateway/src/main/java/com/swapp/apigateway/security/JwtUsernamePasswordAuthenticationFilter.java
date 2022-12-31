@@ -62,7 +62,7 @@ public class JwtUsernamePasswordAuthenticationFilter extends AbstractAuthenticat
 
     	System.out.println("successful authentication ");
         Instant now = Instant.now();
-        String token = Jwts.builder()
+        String token = Jwts.builder() //inserire anche username
                 .setSubject(u.getEmail())
                 .claim("authorities", auth.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority).collect(Collectors.toList()))

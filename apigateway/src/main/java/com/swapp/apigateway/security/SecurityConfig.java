@@ -64,7 +64,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(config.getUrl(),"/list","/registration/*").permitAll()
                     .anyRequest().authenticated();
-    	 
     	
     }
 }

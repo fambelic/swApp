@@ -17,7 +17,7 @@ public class RegistrationController {
 
     @PostMapping("/submit")
     public void CreateUser(@Valid @RequestBody user newuser, HttpServletResponse response) throws IOException {
-        StatusEnumerator status= service.CreateUser(newuser);
+        StatusEnumerator status = service.CreateUser(newuser);
         if(status != StatusEnumerator.OK) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,getMessage(status));
             }

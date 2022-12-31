@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Configuration;
 public class ZuulConfiguration {
     /**
      * The path returned by ErrorController.getErrorPath() with Spring Boot < 2.5
-     * (and no longer available on Spring Boot >= 2.5).
+     * (and` no longer available on Spring Boot >= 2.5).
      */
     private static final String ERROR_PATH = "/error";
     private static final String METHOD = "lookupHandler";
