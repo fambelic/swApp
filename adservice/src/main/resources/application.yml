@@ -9,7 +9,7 @@ spring:
       host: 127.0.0.1
 
 server:
-  port: 8082
+  port: 8083
   error:
     include-message: always
 

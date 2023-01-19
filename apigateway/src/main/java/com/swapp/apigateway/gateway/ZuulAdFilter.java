@@ -24,14 +24,14 @@ public class ZuulAdFilter extends ZuulFilter {
 
     @Override
     public boolean shouldFilter() {
-        System.out.println(RequestContext.getCurrentContext().get("proxy").equals(""));
-        return true;
+        return RequestContext.getCurrentContext().get("proxy").equals("annunci");
     }
 
     @Override
     public Object run() {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
+        request.getRequestURI()
         log.info("PreFilter: " + String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
 
         return null;

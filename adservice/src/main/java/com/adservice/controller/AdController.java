@@ -24,9 +24,10 @@ public class AdController {
         this.streamBridge = streamBridge;
     }
     @GetMapping("/ads")
-    public ArrayList<Annuncio> getAds(HttpServletRequest  request)
+    public ArrayList<Annuncio> getAds(HttpServletRequest request)
     {
-       return adService.getAnnunci(Objects.requireNonNull(request.getHeaders("username").toString()));
+        System.out.println();
+       return adService.getAnnunci(Objects.requireNonNull(request.getHeaders("username").nextElement()));
     }
 
     @PostMapping("/ad")

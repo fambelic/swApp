@@ -22,7 +22,7 @@ zuul:
     announce:
       path: /ads/**
     mockoon:
-      path: /mock/**
+      path: /annunci/ad/**
       url: http://127.0.0.1:3000/
 
 private.security.jwt.secret: otherpeopledontknowit
