@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-circular-references: true
   data:
     mongodb:
       authentication-database: admin
@@ -8,7 +10,7 @@ spring:
       port: 27017
       host: 127.0.0.1
   application:
-    name: authservice
+    name: apigateway
 server:
   port: 8087
 
@@ -17,4 +19,10 @@ zuul:
     registration:
       path: /registration/**
       url: http://localhost:8082/
+    announce:
+      path: /ads/**
+    mockoon:
+      path: /mock/**
+      url: http://127.0.0.1:3000/
+
 private.security.jwt.secret: otherpeopledontknowit

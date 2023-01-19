@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * Fix for Zuul configuration with Spring Boot 2.5.x + Zuul - "NoSuchMethodError: ErrorController.getErrorPath()":
  */
+
 @Configuration
 public class ZuulConfiguration {
     /**

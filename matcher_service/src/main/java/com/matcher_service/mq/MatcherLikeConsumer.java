@@ -29,17 +29,20 @@ public class MatcherLikeConsumer {
         List<String> vector_d = new ArrayList<>(vectorD.get().getVector_d());
         // DA RITORNARE UN 400 IN CASO DI CONDIZIONE SODDISFATTA
         if(!vector_d.contains(ids_array[0])) return;
-
-        List<String> vector_l = new ArrayList<>(vectorD.get().getVector_l());
+        List<String> vector_l  = new ArrayList<>();
+        if(vectorD.get().getVector_l() != null) vector_l.addAll(vectorD.get().getVector_l());
+        System.out.println(vectorD.get().getOwner());
         vector_d.remove(ids_array[0]);
         vector_l.add(ids_array[0]);
         vectorD.get().setVector_d(vector_d);
         vectorD.get().setVector_l(vector_l);
 
+        vectorDRepo.save(vectorD.get());
     }
     public void exclusiveLike(String [] ids_array){
         Optional<VectorD> vectorD = vectorDRepo.findById(ids_array[1]);
         List<String> vector_l = new ArrayList<>();
+        if(vectorD.get().getVector_l() != null) vector_l.addAll(vectorD.get().getVector_l());
         vector_l.add(ids_array[0]);
         vectorD.get().setVector_l(vector_l);
         vectorDRepo.save(vectorD.get());

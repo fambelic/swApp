@@ -23,7 +23,7 @@ public class AdController {
     public AdController(StreamBridge streamBridge){
         this.streamBridge = streamBridge;
     }
-    @GetMapping("/myads")
+    @GetMapping("/ads")
     public ArrayList<Annuncio> getAds(HttpServletRequest  request)
     {
        return adService.getAnnunci(Objects.requireNonNull(request.getHeaders("username").toString()));
@@ -43,11 +43,14 @@ public class AdController {
         if(!adService.createAndLike(annuncio,id,streamBridge,request.getHeaders("username").nextElement()))  response.sendError(Response.SC_BAD_REQUEST,"error while saving ad");
 
     }
-
-    @PostMapping("/ad/{id}/like")
+    @GetMapping("/ad/{id}")
+    public Annuncio getAnnuncio(@PathVariable String id){
+        return adService.getAnnuncio(id);
+    }
+    @GetMapping("/ad/{id}/like")
     public void like(@PathVariable String id, HttpServletRequest request,HttpServletResponse response) throws IOException {
         String id_dest = request.getReader().readLine();
-        if(!adService.Like(id,id_dest))  response.sendError(Response.SC_BAD_REQUEST,"error while saving ad");
+        if(!adService.like(id,id_dest))  response.sendError(Response.SC_BAD_REQUEST,"error while saving ad");
         streamBridge.send("likequeue",id +" "+ id_dest + " false");
     }
 
