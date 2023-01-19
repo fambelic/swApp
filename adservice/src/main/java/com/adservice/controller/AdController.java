@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 @ComponentScan("com.adservice.service")
+@CrossOrigin(origins = "http://localhost:8000")
 @RestController
 public class AdController {
     @Autowired
