@@ -13,16 +13,18 @@ spring:
     name: apigateway
 server:
   port: 8087
+  error:
+    include-message: always
 
 zuul:
+  add-proxy-headers: true
   routes:
     registration:
       path: /registration/**
       url: http://localhost:8082/
-    announce:
-      path: /ads/**
-    mockoon:
-      path: /annunci/ad/**
-      url: http://127.0.0.1:3000/
+    annunci:
+      path: /annunci/**
+      url: http://127.0.0.1:8083/
+
 
 private.security.jwt.secret: otherpeopledontknowit

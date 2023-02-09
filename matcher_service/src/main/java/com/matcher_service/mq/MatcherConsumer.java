@@ -20,7 +20,6 @@ public class MatcherConsumer {
             Match(annuncio);
         };
     }
-
     public void Match(Annuncio annuncio){
         VectorD vectorD = new VectorD();
         List<VectorD> vectorDList = new ArrayList<>(vectorDRepo.findByCategoriesInAndOwnerNot(annuncio.getCategorie(),annuncio.getOwner()));

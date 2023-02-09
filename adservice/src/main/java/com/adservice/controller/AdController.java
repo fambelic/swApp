@@ -1,5 +1,4 @@
 package com.adservice.controller;
-
 import com.adservice.ad.Annuncio;
 import com.adservice.service.AdService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,6 +33,7 @@ public class AdController {
     @PostMapping("/ad")
     public Annuncio createAnnuncio(@RequestBody Annuncio annuncio, HttpServletResponse response,HttpServletRequest request) throws IOException
     {
+        System.out.println(request.getHeaders("username").nextElement());
         annuncio.setOwner(request.getHeaders("username").nextElement());
         if (!adService.createAnnuncio(annuncio)) response.sendError(Response.SC_BAD_REQUEST,"error while saving swap ad");
         else streamBridge.send("annunciqueue", annuncio);
@@ -46,10 +46,11 @@ public class AdController {
 
     }
     @GetMapping("/ad/{id}")
-    public Annuncio getAnnuncio(@PathVariable String id){
+    public Annuncio getAnnuncio(@PathVariable String id) {
         return adService.getAnnuncio(id);
     }
-    @GetMapping("/ad/{id}/like")
+
+    @PostMapping("/ad/{id}/like")
     public void like(@PathVariable String id, HttpServletRequest request,HttpServletResponse response) throws IOException {
         String id_dest = request.getReader().readLine();
         if(!adService.like(id,id_dest))  response.sendError(Response.SC_BAD_REQUEST,"error while saving ad");

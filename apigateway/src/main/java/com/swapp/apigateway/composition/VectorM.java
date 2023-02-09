@@ -1,16 +1,11 @@
-package com.matcher_service.db;
+package com.swapp.apigateway.composition;
 
 import lombok.Getter;
-import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.List;
 
-@Document(collection = "vettoreM")
 @Getter
-@Setter
-public class VectorD {
-    @Id
+public class VectorM {
     private String ad_id;
     private String owner;
     private List<String> vector_d;

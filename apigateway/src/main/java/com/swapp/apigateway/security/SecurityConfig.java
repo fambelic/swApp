@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -62,6 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     		httpSecurity
                 .csrf().disable()
 					.cors().and().
+
                 logout().disable()
                 .formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -73,8 +75,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .addFilterAfter(new JwtUsernamePasswordAuthenticationFilter(config, authenticationManager()),
                             UsernamePasswordAuthenticationFilter.class)
-                .authorizeRequests()
-                .antMatchers(config.getUrl(),"/list","/registration/*","/ads/*","/mock/*").permitAll()
+					.addFilterAfter(new JwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class).
+                authorizeRequests()
+                .antMatchers("/annuncio/*").permitAll()
                     .anyRequest().authenticated();
     	
     }

@@ -1,15 +1,12 @@
 package com.matcher_service.mq;
 
-import com.matcher_service.db.Annuncio;
 import com.matcher_service.db.VectorD;
 import com.matcher_service.db.VectorDRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 @Component
 public class MatcherLikeConsumer {
@@ -25,6 +22,7 @@ public class MatcherLikeConsumer {
     }
 
     public void like(String[] ids_array){
+        Optional<VectorD> vectorD_src = vectorDRepo.findById(ids_array[0]);
         Optional<VectorD> vectorD = vectorDRepo.findById(ids_array[1]);
         List<String> vector_d = new ArrayList<>(vectorD.get().getVector_d());
         // DA RITORNARE UN 400 IN CASO DI CONDIZIONE SODDISFATTA
@@ -36,8 +34,12 @@ public class MatcherLikeConsumer {
         vector_l.add(ids_array[0]);
         vectorD.get().setVector_d(vector_d);
         vectorD.get().setVector_l(vector_l);
-
         vectorDRepo.save(vectorD.get());
+        List<String> vector_f  = new ArrayList<>();
+        if(vectorD.get().getVector_f() != null) vector_f.addAll(vectorD_src.get().getVector_f());
+        vector_f.add(ids_array[1]);
+        vectorD_src.get().setVector_f(vector_f);
+        vectorDRepo.save(vectorD_src.get());
     }
     public void exclusiveLike(String [] ids_array){
         Optional<VectorD> vectorD = vectorDRepo.findById(ids_array[1]);
