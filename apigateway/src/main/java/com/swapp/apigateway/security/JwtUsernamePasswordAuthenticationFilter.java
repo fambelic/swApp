@@ -70,7 +70,8 @@ public class JwtUsernamePasswordAuthenticationFilter extends AbstractAuthenticat
                 .setExpiration(Date.from(now.plusSeconds(config.getExpiration())))
                 .signWith(SignatureAlgorithm.HS256, config.getSecret().getBytes())
                 .compact();
-
+        System.out.println(token);
         rsp.addHeader(config.getHeader(), config.getPrefix() + " " + token);
+
     }
 }

@@ -53,23 +53,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		public AuthenticationManager authenticationManagerBean() throws Exception {
 			return super.authenticationManagerBean();
 		}
-	@Bean
+	/*@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.applyPermitDefaultValues();
 		configuration.setAllowedMethods(Arrays.asList("GET","POST","OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Requestor-Type"));
-		configuration.setAllowedOrigins(List.of("http://localhost:8000"));
-		configuration.setExposedHeaders(List.of("Authorization"));
+		configuration.setAllowedOrigins(List.of("*"));
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
-	}
+	}*/
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
+		CorsConfiguration corsConfiguration = new CorsConfiguration();
+		corsConfiguration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
+		corsConfiguration.setAllowedOrigins(List.of("*"));
+		corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PUT","OPTIONS","PATCH", "DELETE"));
+		corsConfiguration.setExposedHeaders(List.of("Authorization"));
     		httpSecurity
                 .csrf().disable()
-					.cors().and().
+					.cors().configurationSource(request -> corsConfiguration).and().
 
                 logout().disable()
                 .formLogin().disable()

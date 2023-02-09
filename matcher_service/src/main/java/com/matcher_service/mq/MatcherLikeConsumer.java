@@ -21,11 +21,12 @@ public class MatcherLikeConsumer {
         };
     }
 
+    public boolean check
     public void like(String[] ids_array){
         Optional<VectorD> vectorD_src = vectorDRepo.findById(ids_array[0]);
         Optional<VectorD> vectorD = vectorDRepo.findById(ids_array[1]);
         List<String> vector_d = new ArrayList<>(vectorD.get().getVector_d());
-        // DA RITORNARE UN 400 IN CASO DI CONDIZIONE SODDISFATTA
+        // DA RITORNARE UN 400 IN CASO DI CONDIZIONE NON SODDISFATTA
         if(!vector_d.contains(ids_array[0])) return;
         List<String> vector_l  = new ArrayList<>();
         if(vectorD.get().getVector_l() != null) vector_l.addAll(vectorD.get().getVector_l());

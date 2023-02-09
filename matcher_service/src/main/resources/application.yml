@@ -14,8 +14,6 @@ spring:
             group: consumer
             consumer:
               max-attempts: 1
-
-
   data:
     mongodb:
       authentication-database: admin

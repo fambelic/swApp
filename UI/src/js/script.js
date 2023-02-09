@@ -7,6 +7,8 @@ try{
         url: 'http://localhost:8087/login',
         type: "POST", /* or type:"GET" or type:"PUT" */
         contentType: 'application/json',
+        Accept: '*/*',
+        
         data: JSON.stringify({email: mail, password: pwd}),
         success: function (data, textStatus, request) {
             console.log(request.getResponseHeader("Authorization"));
@@ -21,6 +23,7 @@ try{
 }catch(error){
     console.log(error.message);
 }
+
 });
 
 $( "#signBtn" ).click(function() {
