@@ -60,8 +60,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		configuration.applyPermitDefaultValues();
 		configuration.setAllowedMethods(Arrays.asList("GET","POST","OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Requestor-Type"));
-		configuration.setExposedHeaders(List.of("Authorization"));
 		configuration.setAllowedOrigins(List.of("http://localhost:8000"));
+		configuration.setExposedHeaders(List.of("Authorization"));
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
 	}
