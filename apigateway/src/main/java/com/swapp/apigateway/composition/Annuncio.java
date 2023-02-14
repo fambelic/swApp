@@ -1,8 +1,6 @@
 package com.swapp.apigateway.composition;
-
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.List;
 
 @Getter
@@ -18,8 +16,6 @@ import java.util.List;
     private String descrizione;
     private List<String> categorie;
     private String owner;
-
     private boolean isLiked;
-
     private boolean isExclusive;
 }

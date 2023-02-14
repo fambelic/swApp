@@ -8,16 +8,20 @@ try{
         type: "POST", /* or type:"GET" or type:"PUT" */
         contentType: 'application/json',
         Accept: '*/*',
-        
-        data: JSON.stringify({email: mail, password: pwd}),
+
+        data: JSON.stringify({"email": mail, "password": pwd}),
         success: function (data, textStatus, request) {
-            console.log(request.getResponseHeader("Authorization"));
+            //console.log(request.getResponseHeader("Authorization"));
+            auth = request.getResponseHeader("Authorization");
+            Cookies.set('auth', request.getResponseHeader("Authorization"));
             Cookies.set('username', mail);
-            console.log(Cookies.get('username'));
             location.replace('home.html');
         },
         error: function (xhr, ajaxOptions, thrownError) {
+            swal("Attenzione!", "Informazioni di login non corrette!", "error");
             console.log(xhr.statusText);
+            console.log(Cookies.get('auth'));
+            console.log(Cookies.get('username'));
         }
     });
 }catch(error){
@@ -36,23 +40,23 @@ $( "#signBtn" ).click(function() {
     console.log("registration: " + user + " " + mail + " " + name + " " + surname + " " + date + " " + pwdVal);
 
     if (pwdVal == false) {
-        console.log("Errore - pwd non uguali");
+        swal("Attenzione!", "Le password non coincidono!", "error");
     }else{
     $.ajax({
-        url: 'http://localhost:8083/submit',
+        url: 'http://localhost:8087/registration/submit',
         type: "POST",
         contentType: 'application/json',
         data: JSON.stringify({"username":user,"email": mail,"name": name,"surname": surname,"birthdate": date,"password": pwdVal}),
         success: function (result) {
-            //$.cookie('token', data.Authorization)
-            Cookies.set('username', mail);
-            console.log(Cookies.get('username'));
-            location.replace('home.html');
+            swal("Perfetto!", "La registrazione è avvenuta con successo, verrai reindirizzato al login!", "success")
+                .then((value) => {
+                    location.replace('index.html');
+                });
         },
         error: function (xhr, ajaxOptions, thrownError) {
-            console.log(xhr.statusText);
-            console.log(thrownError);
+            swal("Attenzione!", "Controlla le informazioni e riprova!", "error");
         }
     });
     }
 });
+

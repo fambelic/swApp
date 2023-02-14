@@ -5,12 +5,9 @@ import com.adservice.ad.Annuncio;
 import com.adservice.ad.Categories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.function.StreamBridge;
-import org.springframework.data.annotation.Id;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 @Service
@@ -47,7 +44,6 @@ public class AdService {
         adRepository.save(annuncio);
         //LIKE
         streamBridge.send("likequeue",annuncio.getId() + " " + id + " true");
-
         return true;
     }
 

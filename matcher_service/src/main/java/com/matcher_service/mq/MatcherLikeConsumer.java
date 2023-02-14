@@ -3,6 +3,7 @@ package com.matcher_service.mq;
 import com.matcher_service.db.VectorD;
 import com.matcher_service.db.VectorDRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import java.util.*;
@@ -12,6 +13,11 @@ import java.util.function.Consumer;
 public class MatcherLikeConsumer {
     @Autowired
     VectorDRepo vectorDRepo;
+    StreamBridge streamBridge;
+
+    MatcherLikeConsumer(StreamBridge streamBridge){
+        this.streamBridge = streamBridge;
+    }
     @Bean
     public Consumer<String> consumer() {
         return (ids) -> {
@@ -21,14 +27,42 @@ public class MatcherLikeConsumer {
         };
     }
 
-    public boolean check
     public void like(String[] ids_array){
         Optional<VectorD> vectorD_src = vectorDRepo.findById(ids_array[0]);
         Optional<VectorD> vectorD = vectorDRepo.findById(ids_array[1]);
+        System.out.println("PORCO DIO");
+       if ((vectorD_src.get().getVector_l() !=null) && (vectorD_src.get().getVector_l().contains(ids_array[1]))){
+            System.out.println("Scambio concluso");
+            vectorDRepo.delete(vectorD.get());
+            vectorDRepo.delete(vectorD_src.get());
+            List<VectorD> vectorDArrayList = vectorDRepo.findAll();
+            List<String> vectords,vectorls,vectorfs;
+            for( VectorD vectord : vectorDArrayList){
+                if((vectords = vectord.getVector_d()) != null) {
+                    vectords.remove(ids_array[0]);
+                    vectords.remove(ids_array[1]);
+                    vectord.setVector_d(vectords);
+                }
+                if((vectorls = vectord.getVector_l()) != null) {
+                    vectorls.remove(ids_array[0]);
+                    vectorls.remove(ids_array[1]);
+                    vectord.setVector_l(vectorls);
+                }
+                if((vectorfs = vectord.getVector_f()) != null) {
+                    vectorfs.remove(ids_array[0]);
+                    vectorfs.remove(ids_array[1]);
+                    vectord.setVector_f(vectorfs);
+                }
+                vectorDRepo.save(vectord);
+            }
+           streamBridge.send("adqueue",ids_array[0]+" "+ids_array[1]);
+            return;
+        }
         List<String> vector_d = new ArrayList<>(vectorD.get().getVector_d());
         // DA RITORNARE UN 400 IN CASO DI CONDIZIONE NON SODDISFATTA
         if(!vector_d.contains(ids_array[0])) return;
         List<String> vector_l  = new ArrayList<>();
+        System.out.println("PORCO DIO");
         if(vectorD.get().getVector_l() != null) vector_l.addAll(vectorD.get().getVector_l());
         System.out.println(vectorD.get().getOwner());
         vector_d.remove(ids_array[0]);

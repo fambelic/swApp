@@ -1,53 +1,71 @@
 $( document ).ready(function() {
+    let base64 = "";
     console.log(Cookies.get('username'))
-    if(!Cookies.get('username')){
+    if(Cookies.get('auth') == undefined){
         location.replace('index.html');
     }else{;
-        console.log(Cookies.get('username'))
-    }
-});
-
-$("#confirmBtn").click(function() {
-    var checkboxes = document.getElementsByName('categories');
-    var title= $("#titolo").val();
-    var foto= $("#foto");
-    console.log(foto);
-    var description= $("#description").val();
-    var base64image = convertToBase64(foto);
-    var categories = Array();
-    console.log("title" + title + " - foto: " + base64image + " - description: " + description + " - categories: " + categories)
-    for (var i = 0; i < checkboxes.length; i++) {
-        if (checkboxes[i].checked) {
-            categories.push(checkboxes[i].value);
-        }
+        console.log(Cookies.get('auth'))
     }
 
-    try{
-        $.post({
-            url: 'http://localhost:8087/login',
-            type: "POST", /* or type:"GET" or type:"PUT" */
-            contentType: 'application/json',
-            headers: {
-              Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6W10sImlhdCI6MTY3NTYwOTgzOCwiZXhwIjoxNjc1Njk2MjM4fQ.R4VjHYjfjBhcoHa8ThPJ4Lw20oAqhQfLwoihqZk5wkw",
-              username: Cookies.get('username')
-            },
-            data: JSON.stringify({email: mail, password: pwd}),
-            success: function (data, textStatus, request) {
-                //console.log(request.getResponseHeader("Authorization"));
-                //Cookies.set('username', mail);
-                console.log(request);
-                //location.replace('home.html');
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                console.log(xhr.statusText);
+    $("#foto").on("change", function() {
+        const input = this;
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            var b64 = event.target.result;
+            console.log(b64);
+            base64 = b64;
+        };
+        reader.readAsDataURL(file);
+    });
+
+
+    $("#confirmBtn").click(function() {
+        var checkboxes = document.getElementsByName('categories');
+        var stato = $("input[name='optradio']:checked").val();
+        var title= $("#titolo").val();
+        //var foto= $("#foto");
+        //console.log(foto);
+        var description= $("#description").val();
+        var categories = Array();
+        var strCat = "[";
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                //checkboxes[i].
+                categories.push(checkboxes[i].value);
             }
-        });
-    }catch(error){
-        console.log(error.message);
-    }
-    console.log(categories);
+        }
+
+        console.log("title: " + title + " - foto: " + base64 + " - description: " + description + " - categories: " + categories + " - stato: " + stato);
+        //console.log(categories);
+        try{
+            $.post({
+                url: 'http://localhost:8083/ad',
+                type: "POST", /* or type:"GET" or type:"PUT" */
+                contentType: 'application/json',
+                headers: {
+                    Authorization: Cookies.get('auth'),
+                    username: Cookies.get('username')
+                },
+                data: JSON.stringify({"titolo": title, "descrizione": description, "categorie": categories, "stato": stato, "image": base64}),
+                success: function (data, textStatus, request) {
+                    swal("Perfetto!", "L'articolo è stato aggiunto con successo!", "success")
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.statusText);
+                    swal("Attenzione!", "Controlla le informazioni e riprova!", "error");
+                }
+            });
+        }catch(error){
+            console.log(error.message);
+        }
+        console.log(categories);
+    });
+
+    $("#logoutBtn").click(function(){
+        Cookies.remove();
+        location.replace('index.html');
+    });
 });
 
-$("#logoutBtn").click(function(){
-console.log("culo");
-});
+

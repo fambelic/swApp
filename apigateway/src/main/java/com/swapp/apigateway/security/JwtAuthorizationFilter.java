@@ -38,6 +38,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 throws ServletException, IOException {
             // Get authorization header and validate
             final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
+            if (header == null && request.getRequestURI().contains("registration")) {
+                HeaderMapRequestWrapper headerMapRequestWrapper = new HeaderMapRequestWrapper((HttpServletRequest) request);
+                chain.doFilter(headerMapRequestWrapper,response);
+                return;
+            }
+
             if (!header.startsWith("Bearer ")){
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 return;

@@ -11,7 +11,6 @@ import java.util.List;
 @Setter
 @Document
 public class Annuncio {
-
     @Id
     private String id;
     @Indexed(unique=true)
@@ -21,7 +20,6 @@ public class Annuncio {
     private String descrizione;
     private List<String> categorie;
     private String owner;
-
+    private String Exchange_id;
     private boolean isExclusive;
-
 }
