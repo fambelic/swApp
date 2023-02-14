@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 @Service
 @Component
@@ -21,14 +22,22 @@ public class AdService {
     public ArrayList<Annuncio> getAnnunci(String username){
         return adRepository.findAnnunciByOwner(username);
     }
-
+    public List<Annuncio> getAllAds(){
+        return adRepository.findAll();
+    }
 
     private boolean checkFields(Annuncio annuncio){
         return annuncio.getDescrizione() != null && annuncio.getCategorie() != null && annuncio.getImage() != null && annuncio.getStato() != null && annuncio.getTitolo() != null;
     }
     public boolean createAnnuncio(Annuncio annuncio){
-        if (!checkFields(annuncio) || !categoriesTree.isValid(annuncio.getCategorie())) return false;
-        if (adRepository.findAnnuncioByOwnerAndTitle(annuncio.getOwner(),annuncio.getTitolo()) != null) return false;
+        if (!checkFields(annuncio) || !categoriesTree.isValid(annuncio.getCategorie())) {
+            System.out.println("Campi mancanti o categorie non valide");
+            return false;
+        }
+        if (adRepository.findAnnuncioByOwnerAndTitle(annuncio.getOwner(),annuncio.getTitolo()) != null){
+            System.out.println("Titolo già usato");
+            return false;
+        }
         annuncio.setExclusive(false);
         adRepository.save(annuncio);
         return true;

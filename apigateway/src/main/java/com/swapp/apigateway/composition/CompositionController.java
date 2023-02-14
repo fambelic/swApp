@@ -35,25 +35,26 @@ public class CompositionController {
                 List<Annuncio> vectorL = new ArrayList<>();
                 CompositionResult compositionResult = new CompositionResult();
                 VectorM vectorM = matcherInterface.getVectors(id);
-                List<String> vectorF = new ArrayList<String>();
-                if(vectorM.getVector_f() != null ) vectorF.addAll(vectorM.getVector_f());
-                if(vectorM.getVector_d() != null && !annuncio.getOwner().equals(username)) {
-                    for (String ad : vectorM.getVector_d()) {
-                        Annuncio annuncio1 = annuncInterface.getAnnuncio(ad);
-                        annuncio1.setLiked(false);
-                        if(vectorF.contains(ad)) annuncio1.setLiked(true);
-                        vectorD.add(annuncio1);
+                if(vectorM != null) {
+                    List<String> vectorF = new ArrayList<String>();
+                    if (vectorM.getVector_f() != null) vectorF.addAll(vectorM.getVector_f());
+                    if (vectorM.getVector_d() != null && !annuncio.getOwner().equals(username)) {
+                        for (String ad : vectorM.getVector_d()) {
+                            Annuncio annuncio1 = annuncInterface.getAnnuncio(ad);
+                            annuncio1.setLiked(false);
+                            if (vectorF.contains(ad)) annuncio1.setLiked(true);
+                            vectorD.add(annuncio1);
+                        }
+                        compositionResult.setVectorD(vectorD);
                     }
-                    compositionResult.setVectorD(vectorD);
-                }
-                if(vectorM.getVector_l() != null ) {
-                    for (String ad : vectorM.getVector_l()) {
-                        vectorL.add(annuncInterface.getAnnuncio(ad));
+                    if (vectorM.getVector_l() != null) {
+                        for (String ad : vectorM.getVector_l()) {
+                            vectorL.add(annuncInterface.getAnnuncio(ad));
+                        }
+                        compositionResult.setVectorL(vectorL);
                     }
-                    compositionResult.setVectorL(vectorL);
                 }
                 compositionResult.setMainAnnuncio(annuncio);
                 return compositionResult;
     }
-
 }

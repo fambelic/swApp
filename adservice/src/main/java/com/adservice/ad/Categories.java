@@ -8,8 +8,10 @@ import java.util.*;
 public class Categories {
     private final HashMap<String,List<String>> categories = new HashMap<>(){{
 
-        put("Electronics",List.of("Computers","Smartphones","Tablets"));
-        put("Women's fashion",List.of("Shoes","Jewelries","Jeans"));
+        put("Elettronica",List.of("Informatica","Console e Videogiochi","Smartphone e tablet"));
+        put("Arredamento e Casalinghi",List.of("Elettrodomestici","Giardino"));
+        put("Sports e hobby",List.of("Animali","Intrattenimento", "Strumenti Musicali"));
+        put("Per la persona",List.of("Abbigliamento e Accessori"));
 
     }};
 

@@ -40,7 +40,7 @@ $( document ).ready(function() {
         //console.log(categories);
         try{
             $.post({
-                url: 'http://localhost:8083/ad',
+                url: 'http://localhost:8087/annunci/ad',
                 type: "POST", /* or type:"GET" or type:"PUT" */
                 contentType: 'application/json',
                 headers: {

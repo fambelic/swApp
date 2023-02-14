@@ -43,7 +43,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 chain.doFilter(headerMapRequestWrapper,response);
                 return;
             }
-
             if (!header.startsWith("Bearer ")){
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
@@ -60,5 +59,4 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             System.out.println("username: "+username);
             chain.doFilter(headerMapRequestWrapper,response);
         }
-
 }

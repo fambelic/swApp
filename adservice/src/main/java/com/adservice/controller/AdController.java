@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @ComponentScan("com.adservice.service")
@@ -23,13 +24,17 @@ public class AdController {
     public AdController(StreamBridge streamBridge){
         this.streamBridge = streamBridge;
     }
-    @GetMapping("/ads")
+    @GetMapping("/myads")
     public ArrayList<Annuncio> getAds(HttpServletRequest request)
     {
         System.out.println();
        return adService.getAnnunci(Objects.requireNonNull(request.getHeaders("username").nextElement()));
     }
-
+    @GetMapping("/ads")
+    public List<Annuncio> getAllAds()
+    {
+        return adService.getAllAds();
+    }
     @PostMapping("/ad")
     public Annuncio createAnnuncio(@RequestBody Annuncio annuncio, HttpServletResponse response,HttpServletRequest request) throws IOException
     {
@@ -45,6 +50,7 @@ public class AdController {
         if(!adService.createAndLike(annuncio,id,streamBridge,request.getHeaders("username").nextElement()))  response.sendError(Response.SC_BAD_REQUEST,"error while saving ad");
 
     }
+
     @GetMapping("/ad/{id}")
     public Annuncio getAnnuncio(@PathVariable String id) {
         return adService.getAnnuncio(id);
