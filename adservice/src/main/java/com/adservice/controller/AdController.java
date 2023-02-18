@@ -27,13 +27,12 @@ public class AdController {
     @GetMapping("/myads")
     public ArrayList<Annuncio> getAds(HttpServletRequest request)
     {
-        System.out.println();
        return adService.getAnnunci(Objects.requireNonNull(request.getHeaders("username").nextElement()));
     }
     @GetMapping("/ads")
-    public List<Annuncio> getAllAds()
+    public List<Annuncio> getAllAds(HttpServletRequest request)
     {
-        return adService.getAllAds();
+        return adService.getAllAds(Objects.requireNonNull(request.getHeaders("username").nextElement()));
     }
     @PostMapping("/ad")
     public Annuncio createAnnuncio(@RequestBody Annuncio annuncio, HttpServletResponse response,HttpServletRequest request) throws IOException

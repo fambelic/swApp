@@ -14,5 +14,6 @@ public interface AdRepository extends MongoRepository<Annuncio, String> {
     Annuncio findAnnuncioByOwnerAndTitle(String owner,String title);
     @Query("{_id: ?0}")
     Annuncio findAnnuncioById(String id);
-
+    @Query("{\"owner\":{$nin:[?0]}}")
+    ArrayList<Annuncio> findNotOwnedAds(String username);
 }

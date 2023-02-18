@@ -22,8 +22,8 @@ public class AdService {
     public ArrayList<Annuncio> getAnnunci(String username){
         return adRepository.findAnnunciByOwner(username);
     }
-    public List<Annuncio> getAllAds(){
-        return adRepository.findAll();
+    public List<Annuncio> getAllAds(String username){
+        return adRepository.findNotOwnedAds(username);
     }
 
     private boolean checkFields(Annuncio annuncio){
