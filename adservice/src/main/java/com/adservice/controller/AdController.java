@@ -59,7 +59,8 @@ public class AdController {
     @PostMapping("/ad/{id}/like")
     public void like(@PathVariable String id, HttpServletRequest request,HttpServletResponse response) throws IOException {
         String id_dest = request.getReader().readLine();
-        if(!adService.like(id,id_dest))  response.sendError(Response.SC_BAD_REQUEST,"error while saving ad");
+        String username = request.getHeaders("username").nextElement();
+        if(!adService.like(id,id_dest,username))  response.sendError(Response.SC_BAD_REQUEST,"error while saving ad");
         streamBridge.send("likequeue",id +" "+ id_dest + " false");
     }
 

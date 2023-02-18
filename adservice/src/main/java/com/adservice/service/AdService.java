@@ -59,10 +59,10 @@ public class AdService {
     public Annuncio getAnnuncio(String id){
         return adRepository.findAnnuncioById(id);
     }
-    public boolean like(String id_src,String id_dst){
+    public boolean like(String id_src,String id_dst,String username){
         //CREATE
         Annuncio annuncio_src = adRepository.findAnnuncioById(id_src);
         Annuncio annuncio_dest = adRepository.findAnnuncioById(id_dst);
-        return !Collections.disjoint(annuncio_src.getCategorie(), annuncio_dest.getCategorie()) && (!annuncio_src.isExclusive() || !annuncio_dest.isExclusive()) && !annuncio_src.getOwner().equals(annuncio_dest.getOwner());
+        return !Collections.disjoint(annuncio_src.getCategorie(), annuncio_dest.getCategorie()) && (!annuncio_src.isExclusive() || !annuncio_dest.isExclusive()) && !annuncio_src.getOwner().equals(annuncio_dest.getOwner()) && annuncio_src.getOwner().equals(username);
     }
 }

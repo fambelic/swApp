@@ -2,7 +2,7 @@ $(document).ready(function() {
 
     try{
         $.get({
-            url: 'http://localhost:8083/ads',
+            url: 'http://localhost:8087/annunci/ads',
             type: "GET", /* or type:"GET" or type:"PUT" */
             contentType: 'application/json',
             headers: {
@@ -14,14 +14,36 @@ $(document).ready(function() {
                 mainbody.append(printAds(data));
                 $('.card-title').click(function() {
                     var name = $(this).attr("name");
-                    $('#modal-title').html(data[name].titolo);
-                    $('#modal-description').html(data[name].descrizione);
-                    $("#image-modal").attr("src",data[name].image);
-                    //$('#modal-image').html("<img src = \"" + data[name].image + "\"class = \"img-fluid w-100\" alt = \"Responsive image\" >");
+                    var splitted = name.split(";");
+                    var index = splitted[0];
+                    var id = splitted[1];
+                    $('#modal-title').html(data[index].titolo);
+                    $('#modal-description').html(data[index].descrizione);
+                    $("#image-modal").attr("src",data[index].image);
                     $('#myModal').modal('show');
                     $('#heart').click(function() {
                         $('#heart').addClass("heartclicked")
                     });
+
+                    $.get({
+                        url: 'http://localhost:8087/annuncio/' + id,
+                        type: "GET", /* or type:"GET" or type:"PUT" */
+                        contentType: 'application/json',
+                        headers: {
+                            Authorization: Cookies.get('auth'),
+                            username: Cookies.get('username')
+                        },
+                        success: function (data, textStatus, request) {
+                            var related = $("#related");
+                            console.log(data.vectorD);
+                            //related.append(printRelatedAds(data.vectorD));
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            console.log(xhr.statusText);
+                            swal("Attenzione!", "Controlla le informazioni e riprova!", "error");
+                        }
+                    });
+
                 });
             },
             error: function (xhr, ajaxOptions, thrownError) {

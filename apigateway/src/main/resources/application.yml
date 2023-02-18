@@ -1,5 +1,3 @@
-web:
-
 spring:
   main:
     allow-circular-references: true
@@ -17,6 +15,7 @@ server:
   port: 8087
   error:
     include-message: always
+  shutdown: graceful
 
 zuul:
   add-proxy-headers: true

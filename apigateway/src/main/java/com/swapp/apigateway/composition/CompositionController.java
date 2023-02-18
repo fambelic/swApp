@@ -38,7 +38,7 @@ public class CompositionController {
                 if(vectorM != null) {
                     List<String> vectorF = new ArrayList<String>();
                     if (vectorM.getVector_f() != null) vectorF.addAll(vectorM.getVector_f());
-                    if (vectorM.getVector_d() != null && !annuncio.getOwner().equals(username)) {
+                    if (vectorM.getVector_d() != null && annuncio.getOwner().equals(username)) {
                         for (String ad : vectorM.getVector_d()) {
                             Annuncio annuncio1 = annuncInterface.getAnnuncio(ad);
                             annuncio1.setLiked(false);

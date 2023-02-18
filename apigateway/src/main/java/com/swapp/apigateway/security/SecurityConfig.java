@@ -88,7 +88,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             UsernamePasswordAuthenticationFilter.class)
 					.addFilterAfter(new JwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class).
                 authorizeRequests()
-                .antMatchers("/annuncio/*","/annunci/*","/registration/**").permitAll()
+                .antMatchers("/annuncio/*","/annunci/**","/registration/**").permitAll()
                     .anyRequest().authenticated();
     	
     }

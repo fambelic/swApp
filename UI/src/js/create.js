@@ -44,8 +44,7 @@ $( document ).ready(function() {
                 type: "POST", /* or type:"GET" or type:"PUT" */
                 contentType: 'application/json',
                 headers: {
-                    Authorization: Cookies.get('auth'),
-                    username: Cookies.get('username')
+                    Authorization: Cookies.get('auth')
                 },
                 data: JSON.stringify({"titolo": title, "descrizione": description, "categorie": categories, "stato": stato, "image": base64}),
                 success: function (data, textStatus, request) {

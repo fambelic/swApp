@@ -1,4 +1,5 @@
 $( document ).ready(function() {
+
     if(Cookies.get('auth') == undefined || Cookies.get('username') == undefined){
         Cookies.remove();
         location.replace('index.html');
@@ -19,12 +20,12 @@ $( document ).ready(function() {
         $('#myModal').modal('hide');
     });
 
+    $("#logoutBtn").click(function(){
+        Cookies.remove();
+        location.replace('index.html');
+    });
 });
 
-$("#logoutBtn").click(function(){
-    Cookies.remove();
-    location.replace('index.html');
-});
 
 
 
