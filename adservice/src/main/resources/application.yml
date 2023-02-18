@@ -9,6 +9,9 @@ spring:
       host: 127.0.0.1
   cloud:
     stream:
+      rabbit:
+        binder:
+          admin-addresses: "localhost"
       bindings:
         consumer-in-0:
           destination: "adqueue"

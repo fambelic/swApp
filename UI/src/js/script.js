@@ -49,6 +49,7 @@ $( "#signBtn" ).click(function() {
         //url: 'http://localhost:8082/submit',
         type: "POST",
         contentType: 'application/json',
+        dataType: "json",
         data: JSON.stringify({"username":user,"email": mail,"name": name,"surname": surname,"birthdate": date,"password": pwdVal}),
         success: function (result) {
             swal("Perfetto!", "La registrazione è avvenuta con successo, verrai reindirizzato al login!", "success")

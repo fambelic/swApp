@@ -12,7 +12,6 @@ import javax.validation.Valid;
 import java.io.IOException;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8000")
 public class RegistrationController {
     @Autowired
     RegistrationService service;

@@ -12,3 +12,4 @@ server:
   error:
     include-message: always
   shutdown: graceful
+
