@@ -16,7 +16,7 @@ $( document ).ready(function() {
                 },
                 success: function (data, textStatus, request) {
                     var mainbody = $("#mainbody");
-                    mainbody.append(printAds(data));
+                    printAds(data, mainbody);
                     $('.card-title').click(function() {
                         var name = $(this).attr("name");
                         var splitted = name.split(";");

@@ -11,14 +11,18 @@ $(document).ready(function() {
             },
             success: function (data, textStatus, request) {
                 let mainbody = $("#mainbody");
-                mainbody.append(printAds(data));
+                let exchange = $("#exchanged");
+                printAds(data, mainbody, exchange);
                 let modal = $("#mymodal");
                 $('.card-title').click(function() {
 
                     let name = $(this).attr("name");
                     let splitted = name.split(";");
                     let id = splitted[1];
+                    let liked = splitted[2];
                     let currId = id;
+                    if (liked == 1)$("#relatedsection").hide();
+                    else $("#relatedsection").show();
                     updateModal(splitted, modal, data)
                     /*$('#heart').click(function() {
                         $('#heart').addClass("heartclicked")
