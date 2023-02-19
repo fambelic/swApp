@@ -48,7 +48,7 @@ $( document ).ready(function() {
                 },
                 data: JSON.stringify({"titolo": title, "descrizione": description, "categorie": categories, "stato": stato, "image": base64}),
                 success: function (data, textStatus, request) {
-                    swal("Perfetto!", "L'articolo è stato aggiunto con successo!", "success")
+                    swal("Perfetto!", "L'articolo e' stato aggiunto con successo!", "success")
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     console.log(xhr.statusText);

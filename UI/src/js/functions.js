@@ -1,9 +1,3 @@
-$("#logoutBtn").click(function(){
-    Cookies.remove();
-    location.replace('index.html');
-});
-
-
 function printAds(data){
     var result = "<div class=\"row\">";
     for (let i = 0; i < data.length; i++) {
@@ -53,47 +47,91 @@ function printAds(data){
 }
 
 
-function printRelatedAds(data){
-    var result = "<div  class=\"row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center\">";
-    for (let i = 0; i < data.length; i++) {
-        if (i % 3 == 0) {
-            result += "<div className=\"col mb-5\">\n" +
-                "                <div className=\"card h-100\">\n" +
-                "                    <!-- Product image-->\n" +
-                "                    <img className=\"card-img-top\" src=\"" + data[i].image + " \"/>" +
-                "                    <div className=\"card-body p-4\">\n" +
-                "                        <div className=\"text-center\">\n" +
-                "                            <h5 className=\"fw-bolder\">"+ data[i].titolo +"</h5>\n" +
-                "                        </div>\n" +
-                "                    </div>\n" +
-                "                    <div className=\"card-footer p-4 pt-0 border-top-0 bg-transparent\">\n" +
-                "                        <div className=\"text-center\"><a className=\"btn btn-outline-dark mt-auto\" href=\"#\">Apri</a></div>\n" +
-                "                    </div>\n" +
-                "                </div>\n" +
-                "            </div>"
+function printRelatedAds(data) {
+    var result = "";
+    let classbtn = ""
+    if (data != null && data.length != 0) {
+        for (let i = 0; i < data.length; i++) {
+            if(data[i].liked == true) classbtn = "btn-danger disabled\" ";
+            else classbtn = "btn-outline-danger\"";
+            if (i % 3 == 0) {
+                if (i == 0) result += "<div  class=\"row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center\">"
+                else result += "</div><div  class=\"row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center\">"
+                result += "<div class=\"col mb-5\">\n" +
+                    "                <div class=\"card h-100\">\n" +
+                    "                    <!-- Product image-->\n" +
+                    "                    <img class=\"card-img-top\" id=\"relatedtitle\" name=" + i + ";" + data[i].id + " src=\"" + data[i].image + "\"/>" +
+                    "                    <div class=\"card-body p-4\">\n" +
+                    "                        <div class=\"text-center\">\n" +
+                    "                            <h5 id=\"relatedtitle\" class=\"fw-bolder\" name=" + i + ";" + data[i].id + ">" + data[i].titolo + "</h5>\n" +
+                    "                        </div>\n" +
+                    "                    </div>\n" +
+                    "                    <div class=\"card-footer p-4 pt-0 border-top-0 bg-transparent\">\n" +
+                    "                        <div class=\"text-center\"><a id=\"relatedlike\" name=" + i + ";" + data[i].id + "  class=\"btn mt-auto " + classbtn +">Like</a></div>\n" +
+                    "                    </div>\n" +
+                    "                </div>\n" +
+                    "            </div>"
 
-            //mainbody.append("<div class=\"row\">");
-        }else if (i % 3 != 0) {
-            result += "<div className=\"col mb-5\">\n" +
-                "                <div className=\"card h-100\">\n" +
-                "                    <!-- Product image-->\n" +
-                "                    <img className=\"card-img-top\" src=\"" + data[i].image +" \"/>"+
-                "                    <!-- Product details-->\n" +
-                "                    <div className=\"card-body p-4\">\n" +
-                "                        <div className=\"text-center\">\n" +
-                "                            <!-- Product name-->\n" +
-                "                            <h5 className=\"fw-bolder\">"+ data[i].titolo +"</h5>\n" +
-                "                        </div>\n" +
-                "                    </div>\n" +
-                "                    <!-- Product actions-->\n" +
-                "                    <div className=\"card-footer p-4 pt-0 border-top-0 bg-transparent\">\n" +
-                "                        <div className=\"text-center\"><a className=\"btn btn-outline-dark mt-auto\" href=\"#\">Apri</a></div>\n" +
-                "                    </div>\n" +
-                "                </div>\n" +
-                "            </div>";
+                //mainbody.append("<div class=\"row\">");
+            } else if (i % 3 != 0) {
+                result += "<div class=\"col mb-5\">\n" +
+                    "                <div class=\"card h-100\">\n" +
+                    "                    <!-- Product image-->\n" +
+                    "                    <img class=\"card-img-top\" id=\"relatedtitle\" name=" + i + ";" + data[i].id + " src=\"" + data[i].image + "\"/>" +
+                    "                    <!-- Product details-->\n" +
+                    "                    <div class=\"card-body p-4\">\n" +
+                    "                        <div class=\"text-center\">\n" +
+                    "                            <!-- Product name-->\n" +
+                    "                            <h5 id=\"relatedtitle\" name=" + i + ";" + data[i].id + " class=\"fw-bolder\">" + data[i].titolo + "</h5>\n" +
+                    "                        </div>\n" +
+                    "                    </div>\n" +
+                    "                    <!-- Product actions-->\n" +
+                    "                    <div class=\"card-footer p-4 pt-0 border-top-0 bg-transparent\">\n" +
+                    "                        <div class=\"text-center\"><a id=\"relatedlike\" name=" + i + ";" + data[i].id + "  class=\"btn mt-auto " + classbtn +">Like</a></div>\n" +
+                    "                    </div>\n" +
+                    "                </div>\n" +
+                    "            </div>";
+            }
         }
-    }
+
+    } else result += ""
     return result;
 }
 
+function likeItem(myItem, targetItem){
+    try{
+        $.post({
+            url: 'http://localhost:8087/annunci/ad/'+ myItem + "/like",
+            type: "POST", /* or type:"GET" or type:"PUT" */
+            contentType: 'application/json',
+            headers: {
+                Authorization: Cookies.get('auth')
+            },
+            data: targetItem,
+            success: function (data, textStatus, request) {
+                swal("Perfetto!", "Like aggiunto con successo!", "success")
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr.statusText);
+                swal("Attenzione!", "Qualcosa è andato storto!", "error");
+            }
+        });
+    }catch(error){
+        console.log(error.message);
+    }
+}
 
+function updateModal(splitted, modal, element){
+    var index = splitted[0];
+    $('#modal-title').html(element[index].titolo);
+    $('#modal-description').html(element[index].descrizione);
+    let res = "";
+    let elem = element[index].categorie;
+    for (let i = 0; i < elem.length; i++) {
+        if(i == 0)res += element[index].categorie[i];
+        else res += " - " + element[index].categorie[i];
+    }
+    $('#modal-categories').html(res);
+    $("#image-modal").attr("src",element[index].image);
+    $('#myModal').modal('show');
+}

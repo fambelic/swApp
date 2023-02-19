@@ -2,7 +2,7 @@ $(document).ready(function() {
 
     try{
         $.get({
-            url: 'http://localhost:8087/annunci/ads',
+            url: 'http://localhost:8087/annunci/myads',
             type: "GET", /* or type:"GET" or type:"PUT" */
             contentType: 'application/json',
             headers: {
@@ -10,33 +10,71 @@ $(document).ready(function() {
                 username: Cookies.get('username')
             },
             success: function (data, textStatus, request) {
-                var mainbody = $("#mainbody");
+                let mainbody = $("#mainbody");
                 mainbody.append(printAds(data));
+                let modal = $("#mymodal");
                 $('.card-title').click(function() {
-                    var name = $(this).attr("name");
-                    var splitted = name.split(";");
-                    var index = splitted[0];
-                    var id = splitted[1];
-                    $('#modal-title').html(data[index].titolo);
-                    $('#modal-description').html(data[index].descrizione);
-                    $("#image-modal").attr("src",data[index].image);
-                    $('#myModal').modal('show');
-                    $('#heart').click(function() {
-                        $('#heart').addClass("heartclicked")
-                    });
 
+                    let name = $(this).attr("name");
+                    let splitted = name.split(";");
+                    let id = splitted[1];
+                    let currId = id;
+                    updateModal(splitted, modal, data)
+                    /*$('#heart').click(function() {
+                        $('#heart').addClass("heartclicked")
+                    });*/
+                    //console.log(data);
                     $.get({
                         url: 'http://localhost:8087/annuncio/' + id,
                         type: "GET", /* or type:"GET" or type:"PUT" */
                         contentType: 'application/json',
                         headers: {
                             Authorization: Cookies.get('auth'),
-                            username: Cookies.get('username')
+                            //username: Cookies.get('username')
                         },
                         success: function (data, textStatus, request) {
-                            var related = $("#related");
-                            console.log(data.vectorD);
-                            //related.append(printRelatedAds(data.vectorD));
+                            let related = $("#related");
+                            let liked = $("#liked");
+                            related.html("");
+                            liked.html("");
+                            console.log(data)
+                            related.append(printRelatedAds(data.vectorD));
+                            liked.append(printRelatedAds(data.vectorL));
+
+                            $("#relatedsection").on("click", "#relatedtitle", function() {
+                                let name = $(this).attr("name");
+                                let splitted = name.split(";");
+                                let id = splitted[1];
+                                console.log(currId + " - " + id)
+                                updateModal(splitted, modal, data.vectorD)
+                            });
+                            $("#relatedsection").on("click", "#relatedlike", function() {
+                                let element = $(this);
+                                let name = $(this).attr("name");
+                                let splitted = name.split(";");
+                                let id = splitted[1];
+                                console.log(currId + " - " + id)
+                                swal({
+                                    title: "Sei sicuro di voler mettere like?",
+                                    text: "Non potrai tornare indietro!",
+                                    icon: "warning",
+                                    buttons: true,
+                                    dangerMode: true,
+                                })
+                                    .then((willDelete) => {
+                                        if (willDelete) {
+                                            likeItem(currId, id)
+                                            if(element.hasClass("btn-outline-danger")){
+                                                element.addClass("btn-danger disabled");
+                                                element.removeClass("btn-outline-danger");
+                                            }
+
+                                        } else {
+                                            swal("Sei salvo, per ora");
+                                        }
+                                    });
+                                //updateModal(splitted, modal, data.vectorD)
+                            });
                         },
                         error: function (xhr, ajaxOptions, thrownError) {
                             console.log(xhr.statusText);
@@ -45,6 +83,7 @@ $(document).ready(function() {
                     });
 
                 });
+
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr.statusText);
