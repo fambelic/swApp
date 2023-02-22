@@ -5,7 +5,7 @@ $( "#loginBtn" ).click(function() {
     console.log( mail + " " + pwd );
 try{
     $.post({
-        url: "http://localhost:8087/login",
+        url: "http://swapp-be.mastercc.hpc4ai.unito.it/login",
         //url: "http://mascorra/swapp-gateway",
         type: "POST", /* or type:"GET" or type:"PUT" */
         contentType: 'application/json',
@@ -45,7 +45,7 @@ $( "#signBtn" ).click(function() {
         swal("Attenzione!", "Le password non coincidono!", "error");
     }else{
     $.ajax({
-        url: "http://localhost:8087/registration/submit",
+        url: "http://swapp-be.mastercc.hpc4ai.unito.it/registration/submit",
         //url: 'http://localhost:8082/submit',
         type: "POST",
         contentType: 'application/json',

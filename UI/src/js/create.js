@@ -40,7 +40,7 @@ $( document ).ready(function() {
         //console.log(categories);
         try{
             $.post({
-                url: 'http://localhost:8087/annunci/ad',
+                url: 'http://swapp-be.mastercc.hpc4ai.unito.it/annunci/ad',
                 type: "POST", /* or type:"GET" or type:"PUT" */
                 contentType: 'application/json',
                 headers: {

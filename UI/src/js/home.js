@@ -6,7 +6,7 @@ $( document ).ready(function() {
     }else{
         try{
             $.get({
-                url: 'http://localhost:8087/annunci/ads',
+                url: 'http://swapp-be.mastercc.hpc4ai.unito.it/annunci/ads',
                 type: "GET", /* or type:"GET" or type:"PUT" */
                 contentType: 'application/json',
                 Accept: '*/*',

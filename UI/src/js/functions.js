@@ -148,7 +148,7 @@ function printRelatedAds(data) {
 function likeItem(myItem, targetItem){
     try{
         $.post({
-            url: 'http://localhost:8087/annunci/ad/'+ myItem + "/like",
+            url: 'http://swapp-be.mastercc.hpc4ai.unito.it/annunci/ad/'+ myItem + "/like",
             type: "POST", /* or type:"GET" or type:"PUT" */
             contentType: 'application/json',
             headers: {

@@ -2,7 +2,7 @@ $(document).ready(function() {
 
     try{
         $.get({
-            url: 'http://localhost:8087/annunci/myads',
+            url: 'http://swapp-be.mastercc.hpc4ai.unito.it/annunci/myads',
             type: "GET", /* or type:"GET" or type:"PUT" */
             contentType: 'application/json',
             headers: {
@@ -29,7 +29,7 @@ $(document).ready(function() {
                     });*/
                     //console.log(data);
                     $.get({
-                        url: 'http://localhost:8087/annuncio/' + id,
+                        url: 'http://swapp-be.mastercc.hpc4ai.unito.it/annuncio/' + id,
                         type: "GET", /* or type:"GET" or type:"PUT" */
                         contentType: 'application/json',
                         headers: {
