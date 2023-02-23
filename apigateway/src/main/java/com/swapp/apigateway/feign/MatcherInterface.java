@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-@FeignClient (name = "MatcherClient",url = "http://localhost:8084/")
+@FeignClient (name = "MatcherClient",url = "http://swapp-swapp-matcher:8084/")
 public interface MatcherInterface {
     @RequestMapping(method = RequestMethod.GET, value = "vector/{id}", produces = "application/json")
     VectorM getVectors(@PathVariable String id);

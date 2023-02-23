@@ -60,7 +60,7 @@ public class JwtUsernamePasswordAuthenticationFilter extends AbstractAuthenticat
     protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse rsp, FilterChain chain,
                                             Authentication auth) {
 
-    	System.out.println("successful authentication ");
+    	System.out.println("successful authentication: creating jwt with secret "+config.getSecret());
         Instant now = Instant.now();
         String token = Jwts.builder() //inserire anche username
                 .setSubject(u.getEmail())

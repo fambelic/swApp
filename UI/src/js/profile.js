@@ -7,7 +7,7 @@ $(document).ready(function() {
             contentType: 'application/json',
             headers: {
                 Authorization: Cookies.get('auth'),
-                username: Cookies.get('username')
+               // username: Cookies.get('username')
             },
             success: function (data, textStatus, request) {
                 let mainbody = $("#mainbody");

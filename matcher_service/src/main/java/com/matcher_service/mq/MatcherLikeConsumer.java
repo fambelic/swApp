@@ -30,11 +30,13 @@ public class MatcherLikeConsumer {
     public void like(String[] ids_array){
         Optional<VectorD> vectorD_src = vectorDRepo.findById(ids_array[0]);
         Optional<VectorD> vectorD = vectorDRepo.findById(ids_array[1]);
-        System.out.println("PORCO DIO");
        if ((vectorD_src.get().getVector_l() !=null) && (vectorD_src.get().getVector_l().contains(ids_array[1]))){
-            System.out.println("Scambio concluso");
-            vectorDRepo.delete(vectorD.get());
+            System.out.println("Scambio concluso: "+ids_array[0]+" "+ids_array[1]);
+            System.out.println("elimino "+ids_array[0]);
             vectorDRepo.delete(vectorD_src.get());
+            System.out.println("elimino "+ids_array[1]);
+            if (vectorDRepo.findVectorDByAd_id(ids_array[1]) != null) vectorDRepo.delete(vectorD.get());
+           System.out.println("eliminato "+ids_array[1]);
             List<VectorD> vectorDArrayList = vectorDRepo.findAll();
             List<String> vectords,vectorls,vectorfs;
             for( VectorD vectord : vectorDArrayList){
@@ -62,7 +64,6 @@ public class MatcherLikeConsumer {
         // DA RITORNARE UN 400 IN CASO DI CONDIZIONE NON SODDISFATTA
         if(!vector_d.contains(ids_array[0])) return;
         List<String> vector_l  = new ArrayList<>();
-        System.out.println("PORCO DIO");
         if(vectorD.get().getVector_l() != null) vector_l.addAll(vectorD.get().getVector_l());
         System.out.println(vectorD.get().getOwner());
         vector_d.remove(ids_array[0]);

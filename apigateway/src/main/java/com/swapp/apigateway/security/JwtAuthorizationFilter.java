@@ -1,6 +1,8 @@
 package com.swapp.apigateway.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -10,13 +12,19 @@ import java.io.IOException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
+
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
 
+    private String jwt_secret;
+    JwtAuthorizationFilter(String jwt_secret){
+        this.jwt_secret=jwt_secret;
+    }
     public String checkToken(String token) {
         try {
+            System.out.println("AuthorizationFilter: validating jwt with secret: "+jwt_secret);
             Claims claims = Jwts.parser()
-                    .setSigningKey("otherpeopledontknowit".getBytes())
+                    .setSigningKey(jwt_secret.getBytes())
                     .parseClaimsJws(token)
                     .getBody();
 
@@ -38,12 +46,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 throws ServletException, IOException {
             // Get authorization header and validate
             final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-            System.out.println(request.getRequestURI());
             if (header == null && request.getRequestURI().equals("/registration/submit")) {
                 HeaderMapRequestWrapper headerMapRequestWrapper = new HeaderMapRequestWrapper((HttpServletRequest) request);
                 chain.doFilter(headerMapRequestWrapper,response);
                 return;
             }
+            System.out.println("AuthorizationFilter: "+header);
             if (!header.startsWith("Bearer ")){
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 return;

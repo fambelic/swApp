@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Component
@@ -23,7 +24,7 @@ public class AdService {
         return adRepository.findAnnunciByOwner(username);
     }
     public List<Annuncio> getAllAds(String username){
-        return adRepository.findNotOwnedAds(username);
+        return adRepository.findNotOwnedAds(username).stream().filter(x->!x.isExclusive()).collect(Collectors.toList());
     }
 
     private boolean checkFields(Annuncio annuncio){
@@ -46,7 +47,7 @@ public class AdService {
     public boolean createAndLike(Annuncio annuncio, String id,StreamBridge streamBridge,String owner){
         //CREATE
         Annuncio main_annuncio = adRepository.findAnnuncioById(id);
-        if(main_annuncio.getOwner().equals(owner)) return false;
+        if(adRepository.findAnnuncioByOwnerAndTitle(owner,annuncio.getTitolo())!= null) return false;
         annuncio.setOwner(owner);
         if(( !checkFields(annuncio) || categoriesTree.isValid(annuncio.getCategorie()) ) && Collections.disjoint(main_annuncio.getCategorie(),annuncio.getCategorie())) return false;
         annuncio.setExclusive(true);

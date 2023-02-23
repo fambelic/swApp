@@ -18,6 +18,7 @@ spring:
           group: consumer
           consumer:
             max-attempts: 1
+
 server:
   port: 8083
   error:

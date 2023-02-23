@@ -12,7 +12,7 @@ $( document ).ready(function() {
                 Accept: '*/*',
                 headers: {
                     Authorization: Cookies.get('auth'),
-                    username: Cookies.get('username')
+                  //  username: Cookies.get('username')
                 },
                 success: function (data, textStatus, request) {
                     var mainbody = $("#mainbody");
@@ -26,9 +26,9 @@ $( document ).ready(function() {
                         $('#modal-description').html(data[index].descrizione);
                         $("#image-modal").attr("src",data[index].image);
                         $('#myModal').modal('show');
-                        $('#heart').click(function() {
-                            $('#heart').addClass("heartclicked")
-                        });
+                        $('#like_btn').click(function() {
+                       location.replace('create.html?id='+data[index].id);
+                    });
                     });
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
