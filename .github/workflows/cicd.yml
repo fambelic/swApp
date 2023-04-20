@@ -38,13 +38,8 @@ jobs:
       run: mvn clean install --file ./${{ matrix.component }}/pom.xml -Dmaven.test.skip=true
     - name: build image
       run: docker build ./${{ matrix.component }} -f ./${{ matrix.component }}/Dockerfile -t mascorra/swapp-${{ matrix.component }}:latest
-    - name: Log in to Docker Hub
-      uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
-      with:
-        username: camix777
-        password: 9auAHI5s%@41s@%aK$I5
-    - name: push Docker image
-      run: docker push mascorra/swapp-${{ matrix.component }}:latest
+    - name: login and push Docker image
+      run: docker login -u=camix777 -p=9auAHI5s%@41s@%aK$I5 && docker push mascorra/swapp-${{ matrix.component }}:latest
       
     
       
