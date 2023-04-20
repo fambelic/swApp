@@ -39,7 +39,7 @@ jobs:
     - name: build image
       run: docker build ./${{ matrix.component }} -f ./${{ matrix.component }}/Dockerfile -t mascorra/swapp-${{ matrix.component }}:latest
     - name: login and push Docker image
-      run: docker login -u=camix777 -p=9auAHI5s%@41s@%aK$I5 && docker push mascorra/swapp-${{ matrix.component }}:latest
+      run: echo ""  docker login -u=camix777 -p=9auAHI5s%@41s@%aK$I5 && docker push mascorra/swapp-${{ matrix.component }}:latest
       
     
       
