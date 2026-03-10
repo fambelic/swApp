@@ -397,12 +397,20 @@ spec:
             {}
           image: 
           imagePullPolicy: IfNotPresent
-          command: [ "/bin/bash", "-c", "--" ]
-          args: [ "sleep 99999" ]
+          command: [ "/bin/bash", "-c" ]
+          args:
+          - |
+            sed -i "s|http://swapp-be.mastercc.hpc4ai.unito.it|${GATEWAY_IP}:8087/${NAMESPACE}/gateway|g" $(echo /usr/share/nginx/html/js/*.js);
+            nginx -g 'daemon off;'
           ports:
             - name: http
-              containerPort:
+              containerPort: 80
               protocol: TCP
+          env:
+            - name: NAMESPACE
+              value: teacher-3
+            - name: GATEWAY_IP
+              value: xxx.xxx.xxx
           resources:
             {}
 ---
