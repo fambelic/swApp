@@ -400,7 +400,7 @@ spec:
           command: [ "/bin/bash", "-c" ]
           args:
           - |
-            sed -i "s|http://swapp-be.mastercc.hpc4ai.unito.it|${GATEWAY_IP}:8087/${NAMESPACE}/gateway|g" $(echo /usr/share/nginx/html/js/*.js);
+            sed -i "s|http://swapp-be.mastercc.hpc4ai.unito.it|https://${API_GATEWAY}/${NAMESPACE}/gateway|g" $(echo /usr/share/nginx/html/js/*.js);
             nginx -g 'daemon off;'
           ports:
             - name: http
