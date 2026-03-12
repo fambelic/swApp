@@ -409,7 +409,7 @@ spec:
           env:
             - name: NAMESPACE
               value: teacher-3
-            - name: GATEWAY_IP
+            - name: API_GATEWAY
               value: xxx.xxx.xxx
           resources:
             {}
