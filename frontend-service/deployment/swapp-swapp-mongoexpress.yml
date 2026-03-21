@@ -1,0 +1,55 @@
+# Source: swapp/charts/swapp-mongoexpress/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swapp-swapp-mongoexpress
+  labels:
+    helm.sh/chart: swapp-mongoexpress-0.1.0
+    app.kubernetes.io/name: swapp-mongoexpress
+    app.kubernetes.io/instance: swapp
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: swapp-mongoexpress
+      app.kubernetes.io/instance: swapp
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: swapp-mongoexpress
+        app.kubernetes.io/instance: swapp
+    spec:
+      securityContext:
+        {}
+      containers:
+        - name: swapp-mongoexpress
+          securityContext:
+            {}
+          image: "mongo-express:1.0.0-alpha"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8081
+              protocol: TCP
+          env:
+            - name: ME_CONFIG_MONGODB_SERVER
+              value: swapp-swapp-db
+            - name: ME_CONFIG_MONGODB_ADMINUSERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: swapp-swapp-db
+            - name: ME_CONFIG_MONGODB_ADMINPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: swapp-swapp-db
+            - name: ME_CONFIG_BASICAUTH_USERNAME
+              value: io
+            - name: ME_CONFIG_BASICAUTH_PASSWORD
+              value: appian
+          resources:
+            {}
+
