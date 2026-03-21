@@ -1,0 +1,22 @@
+# Source: swapp/charts/swapp-mongoexpress/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: swapp-swapp-mongoexpress
+  labels:
+    helm.sh/chart: swapp-mongoexpress-0.1.0
+    app.kubernetes.io/name: swapp-mongoexpress
+    app.kubernetes.io/instance: swapp
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8081
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: swapp-mongoexpress
+    app.kubernetes.io/instance: swapp
+

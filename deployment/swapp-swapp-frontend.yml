@@ -27,7 +27,7 @@ spec:
         - name: swapp-frontend
           securityContext:
             {}
-          image: 
+          image: mascorra/swapp-frontend:v10
           imagePullPolicy: IfNotPresent
           command: [ "/bin/bash", "-c" ]
           args:
@@ -42,7 +42,7 @@ spec:
             - name: NAMESPACE
               value: teacher-3
             - name: API_GATEWAY
-              value: xxx.xxx.xxx
+              value: 130.192.100.243
           resources:
             {}
 

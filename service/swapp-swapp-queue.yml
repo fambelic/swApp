@@ -1,0 +1,26 @@
+# Source: swapp/charts/swapp-queue/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: swapp-swapp-queue
+  labels:
+    helm.sh/chart: swapp-queue-0.1.0
+    app.kubernetes.io/name: swapp-queue
+    app.kubernetes.io/instance: swapp
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5672
+      targetPort: rabbitmq
+      protocol: TCP
+      name: rabbitmq
+    - port: 15672
+      targetPort: management
+      protocol: TCP
+      name: management
+  selector:
+    app.kubernetes.io/name: swapp-queue
+    app.kubernetes.io/instance: swapp
+

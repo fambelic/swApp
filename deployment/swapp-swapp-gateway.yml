@@ -27,11 +27,11 @@ spec:
         - name: swapp-gateway
           securityContext:
             {}
-          image: 
+          image: mascorra/swapp-gateway:v6
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
-              containerPort: 
+              containerPort: 8087
               protocol: TCP
           resources:
             {}

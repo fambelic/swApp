@@ -1,0 +1,22 @@
+# Source: swapp/charts/swapp-db/templates/service-headless.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: swappdb
+  labels:
+    helm.sh/chart: swapp-db-0.1.0
+    app.kubernetes.io/name: swapp-db
+    app.kubernetes.io/instance: swapp
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  ports:
+    - port: 27017
+      targetPort: http
+      protocol: TCP
+      name: http
+  clusterIP: None
+  selector:
+    app.kubernetes.io/name: swapp-db
+    app.kubernetes.io/instance: swapp
+

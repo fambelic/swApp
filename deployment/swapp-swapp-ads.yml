@@ -27,11 +27,11 @@ spec:
         - name: swapp-ads
           securityContext:
             {}
-          image: 
+          image: mascorra/swapp-ads:v6
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
-              containerPort:
+              containerPort: 8083
               protocol: TCP
           env:
             - name: SPRING_DATA_MONGODB_HOST
