@@ -1,1 +1,0 @@
-{{ include "swapp-mongoexpress.name" . }} installed. Happy Helming.

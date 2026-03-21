@@ -1,0 +1,47 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  annotations: {}
+  name: teacher-3-https-route
+  namespace: teacher-3
+spec:
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: shared-gateway
+      namespace: default
+      sectionName: https
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /teacher-3/gateway
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              replacePrefixMatch: /
+              type: ReplacePrefixMatch
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: swapp-swapp-gateway
+          port:
+          weight: 1
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /teacher-3
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              replacePrefixMatch: /
+              type: ReplacePrefixMatch
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: swapp-swapp-frontend
+          port:
+          weight: 1
+
