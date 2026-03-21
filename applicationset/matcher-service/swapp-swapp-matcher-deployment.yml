@@ -1,0 +1,55 @@
+# Source: swapp/charts/swapp-matcher/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swapp-swapp-matcher
+  labels:
+    helm.sh/chart: swapp-matcher-0.1.0
+    app.kubernetes.io/name: swapp-matcher
+    app.kubernetes.io/instance: swapp
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: swapp-matcher
+      app.kubernetes.io/instance: swapp
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: swapp-matcher
+        app.kubernetes.io/instance: swapp
+    spec:
+      securityContext:
+        {}
+      containers:
+        - name: swapp-matcher
+          securityContext:
+            {}
+          image: "mascorra/swapp-matcher:v7"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8084
+              protocol: TCP
+          resources:
+            {}
+          env:
+            - name: SPRING_DATA_MONGODB_HOST
+              value: swapp-swapp-db
+            - name: SPRING_RABBITMQ_HOST
+              value: swapp-swapp-queue
+            - name: SPRING_DATA_MONGODB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: swapp-swapp-db
+                  optional: false
+            - name: SPRING_DATA_MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: swapp-swapp-db
+                  optional: false
+

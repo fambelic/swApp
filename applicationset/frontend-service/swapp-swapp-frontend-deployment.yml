@@ -1,0 +1,48 @@
+# Source: swapp/charts/swapp-frontend/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swapp-swapp-frontend
+  labels:
+    helm.sh/chart: swapp-frontend-0.1.0
+    app.kubernetes.io/name: swapp-frontend
+    app.kubernetes.io/instance: swapp
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: swapp-frontend
+      app.kubernetes.io/instance: swapp
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: swapp-frontend
+        app.kubernetes.io/instance: swapp
+    spec:
+      securityContext:
+        {}
+      containers:
+        - name: swapp-frontend
+          securityContext:
+            {}
+          image: mascorra/swapp-frontend:v10
+          imagePullPolicy: IfNotPresent
+          command: [ "/bin/bash", "-c" ]
+          args:
+          - |
+            sed -i "s|http://swapp-be.mastercc.hpc4ai.unito.it|https://${API_GATEWAY}/${NAMESPACE}/gateway|g" $(echo /usr/share/nginx/html/js/*.js);
+            nginx -g 'daemon off;'
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          env:
+            - name: NAMESPACE
+              value: teacher-3
+            - name: API_GATEWAY
+              value: 130.192.100.243
+          resources:
+            {}
+

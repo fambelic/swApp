@@ -1,0 +1,66 @@
+# Source: swapp/charts/swapp-db/templates/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: swapp-swapp-db
+  labels:
+    helm.sh/chart: swapp-db-0.1.0
+    app.kubernetes.io/name: swapp-db
+    app.kubernetes.io/instance: swapp
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: swapp-db
+      app.kubernetes.io/instance: swapp
+  serviceName: swappdb
+  replicas: 1 # by default is 1
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: swapp-db-0.1.0
+        app.kubernetes.io/name: swapp-db
+        app.kubernetes.io/instance: swapp
+        app.kubernetes.io/version: "0.1.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      containers:
+        - name: swapp-db
+          image: "mongo:4.0.28"
+          ports:
+            - containerPort: 27017
+              name: http
+          volumeMounts:
+            - name: mongodata
+              mountPath: /data/db
+            - name: mongodata
+              mountPath: /data/configdb
+          env:
+            - name: MONGO_INITDB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: db
+                  name: swapp-swapp-db
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: swapp-swapp-db
+                  optional: false
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: swapp-swapp-db
+                  optional: false
+  volumeClaimTemplates:
+    - metadata:
+        name: mongodata
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: "csi-cinder-fast"
+        resources:
+          requests:
+            storage: 1Gi
+
