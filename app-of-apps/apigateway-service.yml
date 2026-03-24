@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: swapp-apigateway-service
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: swapp
+    app.kubernetes.io/component: apigateway-service
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/fambelic/swApp.git
+    targetRevision: HEAD
+    path: apigateway-service
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      selfHeal: true
+
+    syncOptions:
+      - CreateNamespace=false
+      - ServerSideApply=true

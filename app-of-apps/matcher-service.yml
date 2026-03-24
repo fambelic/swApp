@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: swapp-matcher-service
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: swapp
+    app.kubernetes.io/component: matcher-service
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/fambelic/swApp.git
+    targetRevision: HEAD
+    path: matcher-service
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=false
+      - ServerSideApply=true
