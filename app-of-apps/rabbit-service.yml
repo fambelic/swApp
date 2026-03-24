@@ -12,7 +12,7 @@ spec:
   source:
     repoURL: https://github.com/fambelic/swApp.git
     targetRevision: iac
-    path: app-of-apps/rabbit-service
+    path: rabbit-service
     directory:
       recurse: true
   destination:
