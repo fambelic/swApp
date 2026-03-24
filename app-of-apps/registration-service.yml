@@ -12,7 +12,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/fambelic/swApp.git
-    targetRevision: HEAD
+    targetRevision: svil
     path: registration-service
     directory:
       recurse: true
