@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/fambelic/swApp.git
     targetRevision: iac
-    path: app-of-apps/db-service
+    path: db-service
     directory:
       recurse: true
   destination:
