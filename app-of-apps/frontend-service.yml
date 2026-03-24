@@ -10,7 +10,7 @@ spec:
   project: swapp
   source:
     repoURL: https://github.com/fambelic/swApp.git
-    targetRevision: svil
+    targetRevision: iac
     path: frontend-service
     directory:
       recurse: true

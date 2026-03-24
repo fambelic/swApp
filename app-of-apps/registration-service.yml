@@ -10,8 +10,8 @@ spec:
   project: swapp
   source:
     repoURL: https://github.com/fambelic/swApp.git
-    targetRevision: svil
-    path: registration-service
+    targetRevision: iac
+    path: registration_service
     directory:
       recurse: true
   destination:

@@ -6,11 +6,12 @@ metadata:
   labels:
     app.kubernetes.io/part-of: swapp
     app.kubernetes.io/component: rabbit-service
+
 spec:
   project: swapp
   source:
     repoURL: https://github.com/fambelic/swApp.git
-    targetRevision: svil
+    targetRevision: iac
     path: rabbit-service
     directory:
       recurse: true
