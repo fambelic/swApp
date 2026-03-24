@@ -6,8 +6,6 @@ metadata:
   labels:
     app.kubernetes.io/part-of: swapp
     app.kubernetes.io/component: db-service
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   project: swapp
   source:
