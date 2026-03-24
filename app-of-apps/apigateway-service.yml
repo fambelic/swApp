@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/fambelic/swApp.git
     targetRevision: iac
-    path: apigateway-service
+    path: app-of-apps/apigateway-service
     directory:
       recurse: true
   destination:

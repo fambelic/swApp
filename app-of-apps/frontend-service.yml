@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/fambelic/swApp.git
     targetRevision: iac
-    path: frontend-service
+    path: app-of-apps/frontend-service
     directory:
       recurse: true
   destination:

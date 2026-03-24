@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/fambelic/swApp.git
     targetRevision: iac
-    path: adservice
+    path: app-of-apps/adservice
     directory:
       recurse: true
   destination:
