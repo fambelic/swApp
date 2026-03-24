@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/fambelic/swApp.git
     targetRevision: iac
-    path: app-of-apps/matcher-service
+    path: matcher-service
     directory:
       recurse: true
   destination:
