@@ -13,7 +13,7 @@ spec:
   source:
     repoURL: https://github.com/fambelic/swApp.git
     targetRevision: svil
-    path: ads-service
+    path: adservice
     directory:
       recurse: true
   destination:
