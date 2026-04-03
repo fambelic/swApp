@@ -1,0 +1,71 @@
+# Source: swapp/charts/swapp-gateway/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swapp-swapp-gateway
+  labels:
+    helm.sh/chart: swapp-gateway-0.1.0
+    app.kubernetes.io/name: swapp-gateway
+    app.kubernetes.io/instance: swapp
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: swapp-gateway
+      app.kubernetes.io/instance: swapp
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: swapp-gateway
+        app.kubernetes.io/instance: swapp
+    spec:
+      securityContext:
+        {}
+      containers:
+        - name: swapp-gateway
+          securityContext:
+            {}
+          image: mascorra/swapp-gateway:v6
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8087
+              protocol: TCP
+          resources:
+            {}
+          env:
+            - name: SPRING_DATA_MONGODB_HOST
+              value: swapp-swapp-db
+            - name: SPRING_DATA_MONGODB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: swapp-swapp-db
+                  optional: false
+            - name: SPRING_DATA_MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: swapp-swapp-db
+                  optional: false
+            - name: ZUUL_ROUTES_REGISTRATION_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: registrationUrl
+                  name: swapp-swapp-gateway
+                  optional: false
+            - name: ZUUL_ROUTES_ANNUNCI_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: adsUrl
+                  name: swapp-swapp-gateway
+                  optional: false
+            - name: PRIVATE_SECURITY_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: jwtSecret
+                  name: swapp-swapp-gateway
+                  optional: false
+

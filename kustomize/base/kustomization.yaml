@@ -1,0 +1,35 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  # ads-service
+  - ads-service/deployment.yml
+  - ads-service/service.yml
+  - ads-service/configmap.yml
+
+  # apigateway-service
+  - apigateway-service/deployment.yml
+  - apigateway-service/service.yml
+  - apigateway-service/configmap.yml
+  - apigateway-service/secret.yml
+
+  # db-service
+  - db-service/statefulset.yml
+  - db-service/service.yml
+  - db-service/secret.yml
+
+  # frontend-service
+  - frontend-service/deployment.yml
+  - frontend-service/service.yml
+
+  # matcher-service
+  - matcher-service/deployment.yml
+  - matcher-service/service.yml
+
+  # rabbit-service
+  - rabbit-service/deployment.yml
+  - rabbit-service/service.yml
+
+  # registration-service
+  - registration-service/deployment.yml
+  - registration-service/service.yml

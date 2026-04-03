@@ -1,0 +1,15 @@
+# Source: swapp/charts/swapp-ads/templates/cm.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: swapp-swapp-ads
+  labels:
+    helm.sh/chart: swapp-ads-0.1.0
+    app.kubernetes.io/name: swapp-ads
+    app.kubernetes.io/instance: swapp
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+data:
+  mongoHost: swapp-swapp-db
+  rabbitHost: swapp-swapp-queue
+

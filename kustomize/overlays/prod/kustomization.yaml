@@ -1,0 +1,42 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: swapp-prod
+
+resources:
+  - ../../base
+
+# ---------------------------------------------------------------------------
+# Image overrides
+# Pin every image to an explicit immutable digest or stable tag for prod.
+# ---------------------------------------------------------------------------
+images:
+  - name: mascorra/swapp-ads
+    newTag: v6
+  - name: mascorra/swapp-gateway
+    newTag: v6
+  - name: mascorra/swapp-frontend
+    newTag: v10
+  - name: mascorra/swapp-matcher
+    newTag: v7
+  - name: mascorra/swapp-auth
+    newTag: v2
+  - name: mongo
+    newTag: "4.0.28"
+  - name: mongo-express
+    newTag: "1.0.0-alpha"
+  - name: rabbitmq
+    newTag: management
+
+# ---------------------------------------------------------------------------
+# Strategic merge patches – resource limits & requests per workload
+# ---------------------------------------------------------------------------
+patches:
+  - path: patches/ads-resources.yaml
+  - path: patches/gateway-resources.yaml
+  - path: patches/mongoexpress-resources.yaml
+  - path: patches/db-resources.yaml
+  - path: patches/frontend-resources.yaml
+  - path: patches/matcher-resources.yaml
+  - path: patches/queue-resources.yaml
+  - path: patches/auth-resources.yaml

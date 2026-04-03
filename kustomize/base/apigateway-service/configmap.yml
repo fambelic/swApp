@@ -1,0 +1,15 @@
+# Source: swapp/charts/swapp-gateway/templates/cm.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: swapp-swapp-gateway
+  labels:
+    helm.sh/chart: swapp-gateway-0.1.0
+    app.kubernetes.io/name: swapp-gateway
+    app.kubernetes.io/instance: swapp
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+data:
+  mongoHost: swapp-swapp-db
+  registrationUrl: http://swapp-swapp-auth:8082/
+  adsUrl: http://swapp-swapp-ads:8083/
