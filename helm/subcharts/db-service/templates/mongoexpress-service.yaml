@@ -1,0 +1,22 @@
+{{- if .Values.mongoExpress.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "db-service.componentFullname" (dict "root" . "component" .Values.mongoExpress.componentName) }}
+  labels:
+    helm.sh/chart: {{ include "db-service.chart" . }}
+    app.kubernetes.io/name: {{ include "db-service.componentAppName" (dict "root" . "component" .Values.mongoExpress.componentName) }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: {{ .Values.mongoExpress.componentName }}
+    app.kubernetes.io/part-of: {{ include "db-service.namePrefix" . }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.mongoExpress.service.type }}
+  ports:
+    - name: http
+      port: {{ .Values.mongoExpress.service.port }}
+      protocol: TCP
+      targetPort: http
+  selector:
+    {{- include "db-service.mongoExpressSelectorLabels" . | nindent 4 }}
+{{- end }}

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "rabbit-service.fullname" . }}
+  labels:
+    {{- include "rabbit-service.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: rabbitmq
+      port: {{ .Values.service.rabbitmqPort }}
+      protocol: TCP
+      targetPort: rabbitmq
+    - name: management
+      port: {{ .Values.service.managementPort }}
+      protocol: TCP
+      targetPort: management
+  selector:
+    {{- include "rabbit-service.selectorLabels" . | nindent 4 }}

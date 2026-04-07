@@ -1,0 +1,28 @@
+componentName: frontend
+
+replicaCount: 1
+
+image:
+  repository: mascorra/swapp-frontend
+  pullPolicy: IfNotPresent
+  tag: v10
+
+service:
+  type: ClusterIP
+  port: 80
+
+frontendConfig:
+  namespace: ""
+  apiGateway: 130.192.100.243
+  oldBackendUrl: http://swapp-be.mastercc.hpc4ai.unito.it
+
+httpRoute:
+  enabled: true
+  namespace: ""
+  name: ""
+  annotations: {}
+  parentRefs: []
+  pathPrefix: ""
+  rewritePrefixMatch: "/"
+
+resources: {}

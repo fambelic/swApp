@@ -1,0 +1,45 @@
+componentName: gateway
+
+replicaCount: 1
+
+image:
+  repository: mascorra/swapp-gateway
+  pullPolicy: IfNotPresent
+  tag: v6
+
+service:
+  type: ClusterIP
+  port: 8087
+
+config:
+  mongoHost: ""
+  registrationUrl: ""
+  adsUrl: ""
+
+dependencies:
+  dbComponentName: db
+  registrationComponentName: auth
+  registrationServicePort: 8082
+  adsComponentName: ads
+  adsServicePort: 8083
+
+databaseSecret:
+  name: ""
+  userKey: user
+  passwordKey: password
+
+gatewaySecret:
+  name: ""
+  jwtSecretKey: jwtSecret
+  jwtSecretValue: 1O_ApP1aN
+
+httpRoute:
+  enabled: true
+  namespace: ""
+  name: ""
+  annotations: {}
+  parentRefs: []
+  pathPrefix: ""
+  rewritePrefixMatch: "/"
+
+resources: {}

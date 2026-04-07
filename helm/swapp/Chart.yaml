@@ -1,0 +1,50 @@
+apiVersion: v2
+name: swapp
+description: SWAPP umbrella Helm chart
+type: application
+version: 0.1.0
+appVersion: "1.16.0"
+
+dependencies:
+  - name: ads-service
+    version: 0.1.0
+    repository: file://../subcharts/ads-service
+    condition: ads-service.enabled
+    tags:
+      - ads-service
+  - name: apigateway-service
+    version: 0.1.0
+    repository: file://../subcharts/apigateway-service
+    condition: apigateway-service.enabled
+    tags:
+      - apigateway-service
+  - name: db-service
+    version: 0.1.0
+    repository: file://../subcharts/db-service
+    condition: db-service.enabled
+    tags:
+      - db-service
+  - name: frontend-service
+    version: 0.1.0
+    repository: file://../subcharts/frontend-service
+    condition: frontend-service.enabled
+    tags:
+      - frontend-service
+  - name: matcher-service
+    version: 0.1.0
+    repository: file://../subcharts/matcher-service
+    condition: matcher-service.enabled
+    tags:
+      - matcher-service
+  - name: rabbit-service
+    version: 0.1.0
+    repository: file://../subcharts/rabbit-service
+    condition: rabbit-service.enabled
+    tags:
+      - rabbit-service
+  - name: registration-service
+    version: 0.1.0
+    repository: file://../subcharts/registration-service
+    condition: registration-service.enabled
+    tags:
+      - registration-service

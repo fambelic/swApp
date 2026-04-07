@@ -1,0 +1,23 @@
+componentName: matcher
+
+replicaCount: 1
+
+image:
+  repository: mascorra/swapp-matcher
+  pullPolicy: IfNotPresent
+  tag: v7
+
+service:
+  type: ClusterIP
+  port: 8084
+
+dependencies:
+  dbComponentName: db
+  rabbitComponentName: queue
+
+databaseSecret:
+  name: ""
+  userKey: user
+  passwordKey: password
+
+resources: {}

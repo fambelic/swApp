@@ -1,0 +1,39 @@
+global:
+  namePrefix: swapp
+  httpRoute:
+    parentRefs:
+      - group: gateway.networking.k8s.io
+        kind: Gateway
+        name: shared-gateway
+        namespace: default
+        sectionName: https
+
+tags:
+  ads-service: true
+  apigateway-service: true
+  db-service: true
+  frontend-service: true
+  matcher-service: true
+  rabbit-service: true
+  registration-service: true
+
+ads-service:
+  enabled: true
+
+apigateway-service:
+  enabled: true
+
+frontend-service:
+  enabled: true
+
+db-service:
+  enabled: true
+
+matcher-service:
+  enabled: true
+
+rabbit-service:
+  enabled: true
+
+registration-service:
+  enabled: true

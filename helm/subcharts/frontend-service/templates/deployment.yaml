@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "frontend-service.fullname" . }}
+  labels:
+    {{- include "frontend-service.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "frontend-service.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "frontend-service.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ include "frontend-service.appName" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              sed -i "s|{{ .Values.frontendConfig.oldBackendUrl }}|https://${API_GATEWAY}/${NAMESPACE}/gateway|g" $(echo /usr/share/nginx/html/js/*.js);
+              nginx -g 'daemon off;'
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          env:
+            - name: NAMESPACE
+              value: {{ default .Release.Namespace .Values.frontendConfig.namespace | quote }}
+            - name: API_GATEWAY
+              value: {{ .Values.frontendConfig.apiGateway | quote }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}

@@ -1,0 +1,49 @@
+{{- if .Values.mongoExpress.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "db-service.componentFullname" (dict "root" . "component" .Values.mongoExpress.componentName) }}
+  labels:
+    helm.sh/chart: {{ include "db-service.chart" . }}
+    app.kubernetes.io/name: {{ include "db-service.componentAppName" (dict "root" . "component" .Values.mongoExpress.componentName) }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: {{ .Values.mongoExpress.componentName }}
+    app.kubernetes.io/part-of: {{ include "db-service.namePrefix" . }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.mongoExpress.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "db-service.mongoExpressSelectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "db-service.mongoExpressSelectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ include "db-service.componentAppName" (dict "root" . "component" .Values.mongoExpress.componentName) }}
+          image: "{{ .Values.mongoExpress.image.repository }}:{{ .Values.mongoExpress.image.tag }}"
+          imagePullPolicy: {{ .Values.mongoExpress.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.mongoExpress.service.port }}
+              name: http
+          env:
+            - name: ME_CONFIG_MONGODB_SERVER
+              value: {{ include "db-service.fullname" . }}
+            - name: ME_CONFIG_MONGODB_ADMINUSERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default (include "db-service.fullname" .) .Values.auth.secretName }}
+                  key: user
+            - name: ME_CONFIG_MONGODB_ADMINPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default (include "db-service.fullname" .) .Values.auth.secretName }}
+                  key: password
+            - name: ME_CONFIG_BASICAUTH_USERNAME
+              value: {{ .Values.mongoExpress.basicAuth.username | quote }}
+            - name: ME_CONFIG_BASICAUTH_PASSWORD
+              value: {{ .Values.mongoExpress.basicAuth.password | quote }}
+          resources:
+            {{- toYaml .Values.mongoExpress.resources | nindent 12 }}
+{{- end }}

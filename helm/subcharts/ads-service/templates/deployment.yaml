@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ads-service.fullname" . }}
+  labels:
+    {{- include "ads-service.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "ads-service.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "ads-service.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ include "ads-service.appName" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          env:
+            - name: SPRING_DATA_MONGODB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "ads-service.fullname" . }}
+                  key: mongoHost
+            - name: SPRING_RABBITMQ_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "ads-service.fullname" . }}
+                  key: rabbitHost
+            - name: SPRING_DATA_MONGODB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default (include "ads-service.peerFullname" (dict "root" . "component" .Values.dependencies.dbComponentName)) .Values.databaseSecret.name }}
+                  key: {{ .Values.databaseSecret.userKey }}
+            - name: SPRING_DATA_MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default (include "ads-service.peerFullname" (dict "root" . "component" .Values.dependencies.dbComponentName)) .Values.databaseSecret.name }}
+                  key: {{ .Values.databaseSecret.passwordKey }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}

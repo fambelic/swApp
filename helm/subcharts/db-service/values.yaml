@@ -1,0 +1,46 @@
+componentName: db
+
+replicaCount: 1
+
+image:
+  repository: mongo
+  pullPolicy: IfNotPresent
+  tag: "4.0.28"
+
+service:
+  type: ClusterIP
+  port: 27017
+
+headlessService:
+  name: swappdb
+  port: 27017
+
+auth:
+  secretName: ""
+  username: root
+  password: joker
+  database: demodb
+
+persistence:
+  size: 1Gi
+  storageClassName: csi-cinder-fast
+  accessModes:
+    - ReadWriteOnce
+
+resources: {}
+
+mongoExpress:
+  enabled: true
+  componentName: mongoexpress
+  replicaCount: 1
+  image:
+    repository: mongo-express
+    pullPolicy: IfNotPresent
+    tag: "1.0.0-alpha"
+  service:
+    type: ClusterIP
+    port: 8081
+  basicAuth:
+    username: io
+    password: appian
+  resources: {}

@@ -1,0 +1,15 @@
+componentName: queue
+
+replicaCount: 1
+
+image:
+  repository: rabbitmq
+  pullPolicy: IfNotPresent
+  tag: management
+
+service:
+  type: ClusterIP
+  rabbitmqPort: 5672
+  managementPort: 15672
+
+resources: {}

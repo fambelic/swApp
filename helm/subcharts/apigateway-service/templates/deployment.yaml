@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "apigateway-service.fullname" . }}
+  labels:
+    {{- include "apigateway-service.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "apigateway-service.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "apigateway-service.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ include "apigateway-service.appName" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          env:
+            - name: SPRING_DATA_MONGODB_HOST
+              value: {{ default (include "apigateway-service.peerFullname" (dict "root" . "component" .Values.dependencies.dbComponentName)) .Values.config.mongoHost | quote }}
+            - name: SPRING_DATA_MONGODB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default (include "apigateway-service.peerFullname" (dict "root" . "component" .Values.dependencies.dbComponentName)) .Values.databaseSecret.name }}
+                  key: {{ .Values.databaseSecret.userKey }}
+            - name: SPRING_DATA_MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default (include "apigateway-service.peerFullname" (dict "root" . "component" .Values.dependencies.dbComponentName)) .Values.databaseSecret.name }}
+                  key: {{ .Values.databaseSecret.passwordKey }}
+            - name: ZUUL_ROUTES_REGISTRATION_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "apigateway-service.fullname" . }}
+                  key: registrationUrl
+            - name: ZUUL_ROUTES_ANNUNCI_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "apigateway-service.fullname" . }}
+                  key: adsUrl
+            - name: PRIVATE_SECURITY_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default (include "apigateway-service.fullname" .) .Values.gatewaySecret.name }}
+                  key: {{ .Values.gatewaySecret.jwtSecretKey }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}

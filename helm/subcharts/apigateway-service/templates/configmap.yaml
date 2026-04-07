@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "apigateway-service.fullname" . }}
+  labels:
+    {{- include "apigateway-service.labels" . | nindent 4 }}
+data:
+  mongoHost: {{ default (include "apigateway-service.peerFullname" (dict "root" . "component" .Values.dependencies.dbComponentName)) .Values.config.mongoHost | quote }}
+  registrationUrl: {{ default (printf "http://%s:%v/" (include "apigateway-service.peerFullname" (dict "root" . "component" .Values.dependencies.registrationComponentName)) .Values.dependencies.registrationServicePort) .Values.config.registrationUrl | quote }}
+  adsUrl: {{ default (printf "http://%s:%v/" (include "apigateway-service.peerFullname" (dict "root" . "component" .Values.dependencies.adsComponentName)) .Values.dependencies.adsServicePort) .Values.config.adsUrl | quote }}

@@ -1,0 +1,27 @@
+componentName: ads
+
+replicaCount: 1
+
+image:
+  repository: mascorra/swapp-ads
+  pullPolicy: IfNotPresent
+  tag: v6
+
+service:
+  type: ClusterIP
+  port: 8083
+
+config:
+  mongoHost: ""
+  rabbitHost: ""
+
+dependencies:
+  dbComponentName: db
+  rabbitComponentName: queue
+
+databaseSecret:
+  name: ""
+  userKey: user
+  passwordKey: password
+
+resources: {}

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "db-service.headlessServiceName" . }}
+  labels:
+    {{- include "db-service.labels" . | nindent 4 }}
+spec:
+  clusterIP: None
+  ports:
+    - name: http
+      port: {{ .Values.headlessService.port }}
+      protocol: TCP
+      targetPort: http
+  selector:
+    {{- include "db-service.selectorLabels" . | nindent 4 }}

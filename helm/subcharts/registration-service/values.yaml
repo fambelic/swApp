@@ -1,0 +1,22 @@
+componentName: auth
+
+replicaCount: 1
+
+image:
+  repository: mascorra/swapp-auth
+  pullPolicy: IfNotPresent
+  tag: v2
+
+service:
+  type: ClusterIP
+  port: 8082
+
+dependencies:
+  dbComponentName: db
+
+databaseSecret:
+  name: ""
+  userKey: user
+  passwordKey: password
+
+resources: {}

@@ -1,0 +1,37 @@
+{{- if .Values.httpRoute.enabled }}
+{{- $defaultParentRefs := list (dict "group" "gateway.networking.k8s.io" "kind" "Gateway" "name" "shared-gateway" "namespace" "default" "sectionName" "https") -}}
+{{- $parentRefs := .Values.httpRoute.parentRefs | default .Values.global.httpRoute.parentRefs | default $defaultParentRefs -}}
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ default (printf "%s-https-route-frontend" .Release.Namespace) .Values.httpRoute.name }}
+  {{- if .Values.httpRoute.namespace }}
+  namespace: {{ .Values.httpRoute.namespace }}
+  {{- end }}
+  labels:
+    {{- include "frontend-service.labels" . | nindent 4 }}
+  {{- with .Values.httpRoute.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  parentRefs:
+    {{- toYaml $parentRefs | nindent 4 }}
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: {{ default (printf "/%s" .Release.Namespace) .Values.httpRoute.pathPrefix | quote }}
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: {{ .Values.httpRoute.rewritePrefixMatch | quote }}
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: {{ include "frontend-service.fullname" . }}
+          port: {{ .Values.service.port }}
+          weight: 1
+{{- end }}
