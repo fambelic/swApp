@@ -1,9 +1,18 @@
 apiVersion: v2
 name: swapp
-description: SWAPP umbrella Helm chart
-type: application
 version: 0.1.0
-appVersion: "1.16.0"
+kubeVersion: ">=1.34.0"
+description: A Helm chart for Swapp
+type: application
+appVersion: "1.0.0"
+home: "https://swapp-app.it"
+sources:
+  - "https://github.com/fambelic/swApp"
+maintainers:
+  - name: "Fabio La Manna"
+    email: "fabio.lamanna@example.com"
+  - name: "Lorenzo Camiciola"
+    email: "lorenzo.camiciola@example.com"
 
 dependencies:
   - name: ads-service
