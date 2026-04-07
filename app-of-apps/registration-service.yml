@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: swapp-registration-service
-  namespace: argocd
+  namespace: teacher-3
   labels:
     app.kubernetes.io/part-of: swapp
     app.kubernetes.io/component: registration-service
