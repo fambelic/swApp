@@ -31,3 +31,15 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Helm Build Artifacts ###
+**/charts/*.tgz
+**/Chart.lock
+
+### AI Tooling Artifacts ###
+.codex
+.codex/
+.aider*
+.claude/
+.cursor/
+.windsurf/

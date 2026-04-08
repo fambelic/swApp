@@ -20,6 +20,9 @@ auth:
   username: root
   password: joker
   database: demodb
+  encryptedData: {}
+  sealedSecret:
+    enabled: false
 
 persistence:
   size: 1Gi

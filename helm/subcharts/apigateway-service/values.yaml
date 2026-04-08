@@ -32,6 +32,9 @@ gatewaySecret:
   name: ""
   jwtSecretKey: jwtSecret
   jwtSecretValue: 1O_ApP1aN
+  encryptedData: {}
+  sealedSecret:
+    enabled: false
 
 httpRoute:
   enabled: true
